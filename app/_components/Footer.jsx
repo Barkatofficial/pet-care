@@ -5,7 +5,7 @@ import { Facebook, Instagram, Twitter } from 'lucide-react';
 export default function Footer() {
   return (
     <footer className="bg-gray-900 text-gray-300">
-      <div className="container mx-auto px-6 py-10">
+      <div className="container mx-auto px-6 py-8">
         {/* Section 1: Main Heading */}
         <div className="text-center">
           <h2 className="text-3xl font-bold text-white mb-4 sm:text-4xl">
@@ -36,12 +36,12 @@ export default function Footer() {
             </li>
           </ul>
 
-          <div className="text-center text-gray-500 text-sm -ml-52">
+          <div className="text-center text-gray-500 text-sm ml:0 md:-ml-52 pt-2 md:pt-0">
             &copy; {new Date().getFullYear()} Your Company. All rights reserved.
           </div>
 
           {/* Social Media Icons */}
-          <div className="flex justify-center space-x-6">
+          <div className="flex justify-center space-x-6 pt-4 md:pt-0">
             <Link
               href="#"
               target="_blank"
@@ -68,6 +68,7 @@ export default function Footer() {
             </Link>
           </div>
         </div>
+
       </div>
     </footer>
   );

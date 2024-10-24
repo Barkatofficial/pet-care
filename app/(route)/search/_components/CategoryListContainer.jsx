@@ -6,7 +6,7 @@ export default async function CategoryListContainer() {
   const data = response?.data?.data || [];
 
   return (
-    <div className="w-2/12">
+    <div className="md:w-2/12">
       <CategoryList categoryList={data} />
     </div>
   );

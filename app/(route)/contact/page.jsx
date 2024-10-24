@@ -50,7 +50,7 @@ function Contact() {
     <div className="flex flex-col items-center justify-center min-h-screen py-10 bg-gray-50 px-6">
       <div className="w-full max-w-lg bg-white rounded-xl shadow-xl p-10 transform hover:scale-105 transition-transform duration-300">
         <h1 className="text-4xl font-bold text-center text-gray-800 mb-6">
-          Contact Us
+          Contact
         </h1>
         {success && (
           <p className="mb-4 text-center text-green-500">

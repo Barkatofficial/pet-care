@@ -1,13 +1,15 @@
 "use client"
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useTransition } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import BookingList from './_components/BookingList'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import GlobalApi from '@/app/_utils/GlobalApi'
+import Preloader from '@/app/_components/Loader'
 
 function MyAppoitment() {
     const { user } = useKindeBrowserClient();
-    const [bookingList, setBookingList] = useState([]); // Initialize as an empty array
+    const [isPending, startTransition] = useTransition()
+    const [bookingList, setBookingList] = useState([]);
 
     useEffect(() => {
         if (user) {
@@ -16,12 +18,14 @@ function MyAppoitment() {
     }, [user]);
 
     const getUserAppointmentList = () => {
-        GlobalApi.getUserAppointmentList(user?.email).then(resp => {
-            setBookingList(resp.data.data || []); // Ensure it sets an array
-        }).catch(err => {
-            console.error('Error fetching bookings:', err);
-            setBookingList([]); // Set to an empty array in case of error
-        });
+        startTransition(() => {
+            GlobalApi.getUserAppointmentList(user?.email).then(resp => {
+                setBookingList(resp.data.data || []); // Ensure it sets an array
+            }).catch(err => {
+                console.error('Error fetching bookings:', err);
+                setBookingList([]); // Set to an empty array in case of error
+            });
+        })
     }
 
     const filterUserBooking = (type) => {
@@ -38,6 +42,7 @@ function MyAppoitment() {
         return result;
     }
 
+    if(isPending) return <Preloader bgHeight="100%" width="3rem" height="3rem" color="#0D7Dff" />
     return (
         <div className='px-4 sm:px-10 mt-10'>
             <h2 className='font-bold text-xl'>My Booking</h2>

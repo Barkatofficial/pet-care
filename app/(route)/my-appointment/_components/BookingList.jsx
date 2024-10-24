@@ -22,7 +22,7 @@ function BookingList({ bookingList, expired, updateRecord }) {
 
 
   return (
-    <div>
+    <div className='flex'>
       {bookingList && bookingList.length > 0 ? (
         bookingList.map((item, index) => {
 
@@ -63,7 +63,9 @@ function BookingList({ bookingList, expired, updateRecord }) {
           );
         })
       ) : (
-        <p>No bookings available.</p>  // Handle the case when bookingList is empty
+        <div className='h-[30vh]'>
+          <p className='mt-3'>No bookings available.</p>
+        </div>
       )}
     </div>
   );

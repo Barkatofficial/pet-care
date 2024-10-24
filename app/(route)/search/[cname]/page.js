@@ -54,6 +54,6 @@ export default function Search({ params }) {
     );
   }
   else {
-    return <Preloader bgHeight="100%" width="3rem" height="3rem" color="#0D7Dff" />
+    return <Preloader width="3rem" height="3rem" color="#0D7Dff" />
   }
 }

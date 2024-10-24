@@ -70,9 +70,8 @@ function Header() {
                             </PopoverTrigger>
                             <PopoverContent className='w-44'>
                                 <ul className='flex flex-col gap-2'>
-                                    <li className='cursor-pointer hover:bg-slate-100 p-2 rounded-md'>Profile</li>
-                                    <Link href={'/my-booking'} className='cursor-pointer hover:bg-slate-100 p-2 rounded-md'>Doctor Bookings</Link>
-                                    <Link href={'/my-appointment'} className='cursor-pointer hover:bg-slate-100 p-2 rounded-md'>Service Bookings</Link>
+                                    <Link href='/my-booking' className='cursor-pointer hover:bg-slate-100 p-2 rounded-md'>Doctor Bookings</Link>
+                                    <Link href='/my-appointment' className='cursor-pointer hover:bg-slate-100 p-2 rounded-md'>Service Bookings</Link>
                                     <LogoutLink>
                                         <li className='cursor-pointer hover:bg-slate-100 p-2 rounded-md'>Logout</li>
                                     </LogoutLink>
@@ -102,20 +101,17 @@ function Header() {
 
             {/* Mobile Navigation */}
             {isMenuOpen && (
-                <div className="md:hidden bg-white shadow-lg">
-                    <ul className="flex flex-col items-center space-y-4 py-6">
-                        {Menu.map((item) => (
-                            <Link href={item.path} key={item.id}>
-                                <li className="list-none hover:text-yellow-500 cursor-pointer transition-transform hover:scale-110 duration-300">
-                                    {item.name}
-                                </li>
-                            </Link>
-                        ))}
-                        <Link href="/contact">
-                            <li className="list-none hover:text-yellow-500 cursor-pointer transition-transform hover:scale-110 duration-300">
-                                Contact Us
-                            </li>
-                        </Link>
+                <>
+                    <div className="top-10 left-12 right-0 z-50 md:hidden bg-white shadow-lg h-[calc(100vh-16rem)] overflow-y-auto flex items-center justify-center flex-col">
+                        <ul className="flex flex-col items-center space-y-4 py-6">
+                            {Menu.map((item) => (
+                                <Link href={item.path} key={item.id}>
+                                    <li onClick={() => setIsMenuOpen(false)} className="list-none hover:text-yellow-500 cursor-pointer transition-transform hover:scale-110 duration-300">
+                                        {item.name}
+                                    </li>
+                                </Link>
+                            ))}
+                        </ul>
 
                         {/* Profile or Login/Sign Up */}
                         {user ? (
@@ -131,9 +127,9 @@ function Header() {
                                 </PopoverTrigger>
                                 <PopoverContent className='w-44'>
                                     <ul className='flex flex-col gap-2'>
-                                        <li className='cursor-pointer hover:bg-slate-100 p-2 rounded-md'>Profile</li>
-                                        <Link href={'/my-booking'} className='cursor-pointer hover:bg-slate-100 p-2 rounded-md'>Doctor Bookings</Link>
-                                        <Link href={'/my-appointment'} className='cursor-pointer hover:bg-slate-100 p-2 rounded-md'>Service Bookings</Link>
+                                        {/* <li className='cursor-pointer hover:bg-slate-100 p-2 rounded-md'>Profile</li> */}
+                                        <Link onClick={() => setIsMenuOpen(false)} href='/my-booking' className='cursor-pointer hover:bg-slate-100 p-2 rounded-md'>Doctor Bookings</Link>
+                                        <Link onClick={() => setIsMenuOpen(false)} href='/my-appointment' className='cursor-pointer hover:bg-slate-100 p-2 rounded-md'>Service Bookings</Link>
                                         <LogoutLink>
                                             <li className='cursor-pointer hover:bg-slate-100 p-2 rounded-md'>Logout</li>
                                         </LogoutLink>
@@ -147,8 +143,14 @@ function Header() {
                                 </button>
                             </LoginLink>
                         )}
-                    </ul>
-                </div>
+                    </div>
+
+                    <style jsx global>{`
+                        body {
+                            overflow: hidden;
+                        }
+                    `}</style>
+                </>
             )}
         </header>
     );
