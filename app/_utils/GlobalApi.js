@@ -4,12 +4,10 @@ const API_KEY = process.env.NEXT_PUBLIC_STAPI_API_KEY;
 
 export const axiosClient = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
-    headers: {
-        'Authorization': `Bearer ${API_KEY}`
-    }
+    withCredentials: true,
 });
 
-const getCategory = () => axiosClient.get('/categories?fields=Name&populate[Icon][fields][0]=url'); 
+const getCategory = () => axiosClient.get('/category'); 
 
 const getDoctorList = () => axiosClient.get('/doctors?fields[0]=Name&fields[1]=Address&fields[2]=Experience_Year&populate[image][fields][0]=url&populate[category][fields][0]=Name');
 

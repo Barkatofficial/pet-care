@@ -13,25 +13,24 @@ function CategorySearch({ categoryList }) {
       {/* Center the grid and ensure proper alignment */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 justify-center items-center">
           {categoryList.map((item, index) => (
-            <Link href={'/search/' + item.attributes.Name}
+            <Link href={'/search/' + item.id}
               key={index}
               className="flex flex-col text-center items-center
               p-6 md:p-5 bg-blue-50 m-2 rounded-lg cursor-pointer
               gap-2 hover:scale-110 transition-all ease-in-out"
             >
               <Image
-                src={item.attributes?.Icon?.data.attributes?.url}
+                src={item.icon}
                 alt="icon"
                 width={40}
                 height={40}
               />
               <label className="text-black-600 text-sm">
-                {item?.attributes?.Name}
+                {item.name}
               </label>
             </Link>
           ))}
         </div>
-
       <StatsSection />
     </div>
   );

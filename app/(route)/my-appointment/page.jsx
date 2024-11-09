@@ -2,12 +2,10 @@
 import React, { useState, useEffect, useTransition } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import BookingList from './_components/BookingList'
-import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import GlobalApi from '@/app/_utils/GlobalApi'
 import Preloader from '@/app/_components/Loader'
 
 function MyAppoitment() {
-    const { user } = useKindeBrowserClient();
     const [isPending, startTransition] = useTransition()
     const [bookingList, setBookingList] = useState([]);
 

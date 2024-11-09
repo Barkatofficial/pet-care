@@ -26,7 +26,7 @@ function ServiceList({ list }) {
               <h2 className='text-primary text-sm'>{service.attributes?.Open_time}</h2>
               <h2 className='text-gray-500 text-sm'>{service.attributes?.Address}</h2>
 
-              <Link href={'/details_1/' + service?.id} className='w-full'>
+              <Link href={'/service-details/' + service?.id} className='w-full'>
                 <h2 className='p-2 px-3 border-[1px]
                   border-primary text-primary rounded-full w-full text-center
                   text-[12px] mt-2

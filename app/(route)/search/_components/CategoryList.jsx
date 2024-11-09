@@ -14,12 +14,13 @@ import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'; // Icons for men
 
 function CategoryList({ categoryList }) {
   const pathname = usePathname();
-  const selectedCategory = decodeURIComponent(pathname.split('/')[2]);
   const [currentCategory, setCurrentCategory] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false); // State for opening/closing sidebar
 
+  let selectedCategory
   useEffect(() => {
-    const selectedCategory = decodeURIComponent(pathname.split('/')[2]);
+    selectedCategory = pathname.split('/')[2];
+    console.log(selectedCategory)
     setCurrentCategory(selectedCategory);
   }, [selectedCategory]);
 
@@ -56,20 +57,20 @@ function CategoryList({ categoryList }) {
               {categoryList && categoryList.map((item, index) => (
                 <CommandItem key={index}>
                   <Link
-                    href={`/search/${encodeURIComponent(item.attributes.Name)}`}
+                    href={`/search/${item.id}`}
                     className={`p-2 flex gap-2 text-[14px] text-blue-600 items-center rounded-md w-full
-                      ${decodeURIComponent(currentCategory) === item.attributes.Name ? 'bg-blue-100' : ''}
+                      ${currentCategory === item.id ? 'bg-blue-100' : ''}
                     `}
                     onClick={handleCategorySelect} // Close sidebar on mobile after selection
                   >
                     <Image
-                      src={item.attributes?.Icon?.data.attributes?.url}
+                      src={item.icon}
                       alt='icon'
                       width={25}
                       height={25}
                       className='object-contain'
                     />
-                    <span>{item.attributes.Name}</span>
+                    <span>{item.name}</span>
                   </Link>
                 </CommandItem>
               ))}

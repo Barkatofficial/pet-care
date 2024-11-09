@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useTransition, useRef } from 'react';
-import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
 import {
     Dialog,
     DialogContent,
@@ -18,7 +17,6 @@ import GlobalApi from "@/app/_utils/GlobalApi";
 import { toast } from "sonner";
 
 export default function BookAppointment({ doctor_id, appointments }) {
-    const { user } = useKindeBrowserClient();
     const [isPending, startTransition] = useTransition();
 
     const [date, setDate] = useState(new Date());

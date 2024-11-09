@@ -8,7 +8,7 @@ import Preloader from '@/app/_components/Loader';
 export default function Search({ params }) {
   const [list, setList] = useState([]);
   const [isPending, startTransition] = useTransition()
-  const selectedCategory = decodeURIComponent(params.cname)
+  const selectedCategory = decodeURIComponent(params.id)
 
   const getDoctorList = async () => {
     GlobalApi.getDoctorList().then((resp) => {
@@ -37,7 +37,7 @@ export default function Search({ params }) {
 
   useEffect(() => {
     startTransition(async() => {
-      await fetchService()
+      // await fetchService()
     })
   }, []);
 

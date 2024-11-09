@@ -2,10 +2,8 @@
 import React, { useState } from 'react';
 import RecordList from './RecordList';
 import AddRecordForm from './AddRecordForm';
-import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
 
 const Dashboard = () => {
-    const { user } = useKindeBrowserClient();
     const [view, setView] = useState("form");
 
     return (
