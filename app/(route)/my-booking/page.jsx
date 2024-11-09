@@ -5,15 +5,15 @@ import BookingList from './_components/BookingList'
 import GlobalApi from '@/app/_utils/GlobalApi'
 import Preloader from '@/app/_components/Loader'
 
-function MyBooking() {
+export default function Page() {
     const [isPending, startTransition] = useTransition()
     const [bookingList, setBookingList] = useState([]);
 
-    useEffect(() => {
-        if (user) {
-            getUserBookingList();
-        }
-    }, [user]);
+    // useEffect(() => {
+    //     if (user) {
+    //         getUserBookingList();
+    //     }
+    // }, [user]);
 
     const getUserBookingList = () => {
         startTransition(() => {
@@ -40,7 +40,7 @@ function MyBooking() {
         return result;
     }
 
-    if(isPending) return <Preloader bgHeight="100%" width="3rem" height="3rem" color="#0D7Dff" />
+    if (isPending) return <Preloader bgHeight="100%" width="3rem" height="3rem" color="#0D7Dff" />
     return (
         <div className='px-4 sm:px-10 mt-10'>
             <h2 className='font-bold text-xl'>My Booking</h2>
@@ -67,5 +67,3 @@ function MyBooking() {
         </div>
     )
 }
-
-export default MyBooking

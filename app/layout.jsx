@@ -2,9 +2,7 @@ import { Outfit } from "next/font/google";
 import "./globals.css";
 import Footer from "./_components/Footer";
 import { Toaster } from "@/components/ui/sonner";
-import dynamic from "next/dynamic";
-
-const Navbar = dynamic(() => import("./_components/Navbar"), { ssr: false })
+import Navbar from "./_components/Navbar";
 
 const outfit = Outfit({ subsets: ["latin"] });
 export const metadata = {

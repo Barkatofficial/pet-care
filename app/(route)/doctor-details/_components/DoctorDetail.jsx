@@ -2,13 +2,9 @@ import { GraduationCap, MapPin } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import dynamic from 'next/dynamic';
+import BookAppointment from './BookAppointment';
 
-const BookAppointment = dynamic(() => import('./BookAppointment'), {
-  ssr: false
-})
-
-function DoctorDetail({ doctor }) {
+export default function DoctorDetail({ doctor }) {
 
   const renderAboutContent = (aboutContent) => {
     if (Array.isArray(aboutContent)) {
@@ -78,5 +74,3 @@ function DoctorDetail({ doctor }) {
     </>
   );
 }
-
-export default DoctorDetail;

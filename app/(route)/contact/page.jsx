@@ -1,9 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import axios from "axios";
 import Link from "next/link";
 
-function Contact() {
+export default function Page() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -12,34 +11,9 @@ function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const API_KEY = process.env.NEXT_PUBLIC_STAPI_API_KEY;
 
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/contacts`,
-        {
-          data: {
-            Name: name,
-            Email: email,
-            Message: message,
-          },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${API_KEY}`,
-          },
-        }
-      );
 
-      if (response.status === 200) {
-        setSuccess(true);
-        setName("");
-        setEmail("");
-        setMessage("");
-        setError("");
-      } else {
-        setError("Failed to send message.");
-      }
     } catch (err) {
       console.error("Network Error:", err);
       setError("Network error occurred. Please try again.");
@@ -111,5 +85,3 @@ function Contact() {
     </div>
   );
 }
-
-export default Contact;

@@ -2,9 +2,11 @@
 import React, { useState } from 'react';
 import RecordList from './RecordList';
 import AddRecordForm from './AddRecordForm';
+import { useAuthStore } from '@/store/auth';
 
-const Dashboard = () => {
+export default function Dashboard() {
     const [view, setView] = useState("form");
+    const { user, authLoading } = useAuthStore();
 
     return (
         <div className="max-w-6xl mx-auto p-8 bg-gray-50 rounded-lg shadow-md mt-10 min-h-screen">
@@ -30,5 +32,3 @@ const Dashboard = () => {
         </div>
     );
 };
-
-export default Dashboard;

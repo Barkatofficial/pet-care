@@ -37,35 +37,35 @@ const programs = [
         title: 'Off-Leash Training',
         description: 'Train your dog to follow commands without the need for a leash.',
         videos: [
-          { title: 'Off-Leash Basics', videoUrl: '/videos/off-leash-basics.mp4', details: 'How to start training your dog to walk off-leash with basic control.', thumbnail:'/images/off-leash-thumbnail.jpg' },
+          { title: 'Off-Leash Basics', videoUrl: '/videos/off-leash-basics.mp4', details: 'How to start training your dog to walk off-leash with basic control.', thumbnail: '/images/off-leash-thumbnail.jpg' },
         ],
       },
       {
         title: 'Recall Training',
         description: 'Teach your dog to come to you when called, even with distractions.',
         videos: [
-          { title:'Recall Basics', videoUrl:'/videos/recall-basics.mp4', details:'Introduction to recall commands for off-leash control.', thumbnail:'/images/recall-basics-thumbnail.jpg' },
-          { title:'Recall in Public Spaces', videoUrl:'/videos/recall-public-spaces.mp4', details:'How to train recall commands in parks and open areas.', thumbnail:'/images/recall-public-thumbnail.jpg' },
+          { title: 'Recall Basics', videoUrl: '/videos/recall-basics.mp4', details: 'Introduction to recall commands for off-leash control.', thumbnail: '/images/recall-basics-thumbnail.jpg' },
+          { title: 'Recall in Public Spaces', videoUrl: '/videos/recall-public-spaces.mp4', details: 'How to train recall commands in parks and open areas.', thumbnail: '/images/recall-public-thumbnail.jpg' },
         ],
       },
     ],
   },
   {
-    title:'Behavioral Modification',
-    description:'Training programs for dealing with common behavioral issues.',
-    subPrograms:[
+    title: 'Behavioral Modification',
+    description: 'Training programs for dealing with common behavioral issues.',
+    subPrograms: [
       {
-        title:'Separation Anxiety',
-        description:'Help your dog overcome anxiety when left alone.',
-        videos:[
-          {title:'Managing Separation Anxiety', videoUrl:'/videos/separation-anxiety.mp4', details:'Learn techniques to manage and reduce separation anxiety in dogs.', thumbnail:'/images/separation-anxiety-thumbnail.jpg'},
+        title: 'Separation Anxiety',
+        description: 'Help your dog overcome anxiety when left alone.',
+        videos: [
+          { title: 'Managing Separation Anxiety', videoUrl: '/videos/separation-anxiety.mp4', details: 'Learn techniques to manage and reduce separation anxiety in dogs.', thumbnail: '/images/separation-anxiety-thumbnail.jpg' },
         ],
       },
       {
-        title:'Leash Reactivity',
-        description:'Reduce your dog’s over-excitement or aggression on leash.',
-        videos:[
-          {title:'Leash Reactivity Basics', videoUrl:'/videos/leash-reactivity.mp4', details:'Step-by-step guide to reduce leash aggression.', thumbnail:'/images/leash-reactivity-thumbnail.jpg'},
+        title: 'Leash Reactivity',
+        description: 'Reduce your dog’s over-excitement or aggression on leash.',
+        videos: [
+          { title: 'Leash Reactivity Basics', videoUrl: '/videos/leash-reactivity.mp4', details: 'Step-by-step guide to reduce leash aggression.', thumbnail: '/images/leash-reactivity-thumbnail.jpg' },
         ],
       },
     ],
@@ -80,7 +80,7 @@ const PrevArrow = (props) => (
   <div {...props} className="slick-prev text-2xl text-blue-500">←</div>
 );
 
-export default function BlogSection() {
+export default function Page() {
   const [activeProgram, setActiveProgram] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -106,18 +106,18 @@ export default function BlogSection() {
   );
 
   const sliderSettings = {
-    dots:true,
-    infinite:true,
-    speed:500,
-    slidesToShow:2,
-    slidesToScroll:1,
-    nextArrow:<NextArrow />,
-    prevArrow:<PrevArrow />,
-    responsive:[
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 1,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    responsive: [
       {
-        breakpoint :768,
-        settings:{
-          slidesToShow :1,
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
         },
       },
     ],
@@ -161,9 +161,9 @@ export default function BlogSection() {
                         {/* Slider for videos */}
                         <Slider {...sliderSettings}>
                           {subProgram.videos.map((video, videoIndex) => (
-                            <div key={videoIndex} 
-                                 className="bg-white shadow-sm rounded-lg p-4 transition-transform duration-300 transform hover:-translate-y-1 cursor-pointer"
-                                 onClick={() => handleVideoClick(video.videoUrl)}>
+                            <div key={videoIndex}
+                              className="bg-white shadow-sm rounded-lg p-4 transition-transform duration-300 transform hover:-translate-y-1 cursor-pointer"
+                              onClick={() => handleVideoClick(video.videoUrl)}>
                               <img src={video.thumbnail} alt={video.title} className="w-full h-auto rounded-md mb-3" />
                               <h4 className="text-lg font-medium text-gray-900">{video.title}</h4>
                               <p className="text-gray-500">{video.details}</p>
@@ -183,7 +183,7 @@ export default function BlogSection() {
       </div>
 
       {/* Modal for Video Playback */}
-      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} ariaHideApp={false} style={{ overlay:{ backgroundColor:'rgba(0,0,0,0.75)' }, content:{ top:'50%', left:'50%', right:'auto', bottom:'auto', marginRight:'-50%', transform:'translate(-50%, -50%)', width:'80%', maxWidth:'600px' } }}>
+      <Modal isOpen={modalIsOpen} onRequestClose={closeModal} ariaHideApp={false} style={{ overlay: { backgroundColor: 'rgba(0,0,0,0.75)' }, content: { top: '50%', left: '50%', right: 'auto', bottom: 'auto', marginRight: '-50%', transform: 'translate(-50%, -50%)', width: '80%', maxWidth: '600px' } }}>
         <button onClick={closeModal} className="absolute top-2 right-2 text-white bg-red-500 rounded-full p-2">X</button>
         <video controls className="w-full rounded-md">
           <source src={currentVideoUrl} type="video/mp4" />

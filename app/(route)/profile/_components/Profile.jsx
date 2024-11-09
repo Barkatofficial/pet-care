@@ -4,15 +4,12 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { useAuth } from "@/hooks/useAuth";
 
-const Profile = ({ data }) => {
+export default function Profile({ data }) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -158,5 +155,3 @@ const Profile = ({ data }) => {
     </div>
   );
 };
-
-export default Profile;

@@ -47,7 +47,7 @@ export default function BookAppointment({ doctor_id, appointments }) {
                 Time: selectedTimeSlot,
                 Date: formattedDate,
                 doctor: doctor_id,
-                Note: note || ""  
+                Note: note || ""
             }
         };
 
@@ -57,27 +57,14 @@ export default function BookAppointment({ doctor_id, appointments }) {
                     toast("Booking Confirmation will be sent to your email", {
                         style: { backgroundColor: '#28a745', color: 'white' },
                     });
-
-                    const mailData = res.data.data.attributes;
-                    fetch(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/mail`, {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            name: mailData.Username,
-                            email: mailData.email,
-                            doctorName: mailData.doctor.data.attributes.Name,
-                            date: mailData.Date,
-                            time: mailData.Time,
-                            isAppointment: true
-                        })
-                    });
                 }
             })
-            .catch((error) => {
-                console.error("Error booking appointment:", error.response?.data || error.message);
-            })
-            .finally(() => {
-                resetAppointment();
-            });
+                .catch((error) => {
+                    console.error("Error booking appointment:", error.response?.data || error.message);
+                })
+                .finally(() => {
+                    resetAppointment();
+                });
         });
     };
 

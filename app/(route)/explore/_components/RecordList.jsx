@@ -4,7 +4,7 @@ import Pagination from '@mui/material/Pagination';
 import Preloader from '@/app/_components/Loader';
 import Link from 'next/link';
 
-const RecordList = ({ user }) => {
+export default function RecordList({ user }) {
     const [isPending, startTransition] = useTransition();
     const [records, setRecords] = useState([]);
     const [page, setPage] = useState(1);
@@ -101,5 +101,3 @@ const RecordList = ({ user }) => {
         </div>
     );
 };
-
-export default RecordList;

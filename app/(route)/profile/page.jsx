@@ -6,7 +6,7 @@ const Profile = dynamic(() => import('./_components/Profile'), {
   loading: () => <Preloader width="5rem" height="5rem" color="#0D7Dff" />
 })
 
-const page = () => {
+export default function Page() {
   // API CALL WITH THE COOKIE IN SERVER SIDE
 
   return (
@@ -15,5 +15,3 @@ const page = () => {
     <Profile />
   )
 }
-
-export default page

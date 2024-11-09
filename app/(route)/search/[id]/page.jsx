@@ -5,7 +5,7 @@ import GlobalApi from '@/app/_utils/GlobalApi';
 import ServiceList from '@/app/_components/ServiceList';
 import Preloader from '@/app/_components/Loader';
 
-export default function Search({ params }) {
+export default function Page({ params }) {
   const [list, setList] = useState([]);
   const [isPending, startTransition] = useTransition()
   const selectedCategory = decodeURIComponent(params.id)
@@ -36,7 +36,7 @@ export default function Search({ params }) {
   };
 
   useEffect(() => {
-    startTransition(async() => {
+    startTransition(async () => {
       // await fetchService()
     })
   }, []);

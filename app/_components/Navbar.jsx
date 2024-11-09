@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/auth';
 import Preloader from './Loader';
 
@@ -16,7 +15,6 @@ const NAV_MENU = [
 ];
 
 export default function Navbar() {
-    const router = useRouter();
     const { user, authLoading } = useAuthStore();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 

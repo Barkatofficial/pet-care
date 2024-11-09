@@ -5,15 +5,15 @@ import BookingList from './_components/BookingList'
 import GlobalApi from '@/app/_utils/GlobalApi'
 import Preloader from '@/app/_components/Loader'
 
-function MyAppoitment() {
+export default function Page() {
     const [isPending, startTransition] = useTransition()
     const [bookingList, setBookingList] = useState([]);
 
-    useEffect(() => {
-        if (user) {
-          getUserAppointmentList();
-        }
-    }, [user]);
+    // useEffect(() => {
+    //     if (user) {
+    //         getUserAppointmentList();
+    //     }
+    // }, [user]);
 
     const getUserAppointmentList = () => {
         startTransition(() => {
@@ -32,7 +32,7 @@ function MyAppoitment() {
         }
 
         const result = bookingList.filter(item =>
-            type === 'upcoming' 
+            type === 'upcoming'
                 ? new Date(item.attributes.Date) >= new Date()
                 : new Date(item.attributes.Date) < new Date()
         );
@@ -40,7 +40,7 @@ function MyAppoitment() {
         return result;
     }
 
-    if(isPending) return <Preloader bgHeight="100%" width="3rem" height="3rem" color="#0D7Dff" />
+    if (isPending) return <Preloader bgHeight="100%" width="3rem" height="3rem" color="#0D7Dff" />
     return (
         <div className='px-4 sm:px-10 mt-10'>
             <h2 className='font-bold text-xl'>My Booking</h2>
@@ -50,22 +50,20 @@ function MyAppoitment() {
                     <TabsTrigger value="expired">Expired</TabsTrigger>
                 </TabsList>
                 <TabsContent value="upcoming">
-                    <BookingList 
-                    bookingList={filterUserBooking('upcoming')}
-                    updateRecord={()=>getUserAppointmentList}
-                    expired={false}
+                    <BookingList
+                        bookingList={filterUserBooking('upcoming')}
+                        updateRecord={() => getUserAppointmentList}
+                        expired={false}
                     />
                 </TabsContent>
                 <TabsContent value="expired">
-                    <BookingList 
-                    bookingList={filterUserBooking('expired')}
-                    updateRecord={()=>getUserAppointmentList}
-                    expired={true}
+                    <BookingList
+                        bookingList={filterUserBooking('expired')}
+                        updateRecord={() => getUserAppointmentList}
+                        expired={true}
                     />
                 </TabsContent>
             </Tabs>
         </div>
     )
 }
-
-export default MyAppoitment

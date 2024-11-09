@@ -45,7 +45,7 @@ export default function BookService({ service_id, bookings }) {
 
         const data = {
             data: {
-                Username: `${user.given_name || "Guest"} ${user.family_name || "User"}`,  // Correct the case to match Strapi's field
+                Username: `${user.given_name || "Guest"} ${user.family_name || "User"}`,
                 email: user.email,
                 Time: selectedTimeSlot,
                 Date: formattedDate,
@@ -59,29 +59,16 @@ export default function BookService({ service_id, bookings }) {
                 if (res.status === 200) {
                     toast("Booking Confirmation will be sent to your email", {
                         style: { backgroundColor: '#28a745', color: 'white' },
-                    });
-
-                    const mailData = res.data.data.attributes;
-                    fetch(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/api/mail`, {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            name: mailData.Username,
-                            email: mailData.email,
-                            doctorName: mailData.service.data.attributes.Name,
-                            date: mailData.Date,
-                            time: mailData.Time,
-                            isService: true
-                        })
-                    });
+                    })
                 }
 
             })
-            .catch((error) => {
-                console.error("Error booking appointment:", error.response?.data || error.message);
-            })
-            .finally(() => {
-                resetBooking();
-            });
+                .catch((error) => {
+                    console.error("Error booking appointment:", error.response?.data || error.message);
+                })
+                .finally(() => {
+                    resetBooking();
+                });
         });
     };
 

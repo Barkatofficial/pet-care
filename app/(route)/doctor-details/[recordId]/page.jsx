@@ -1,7 +1,7 @@
 import GlobalApi from '@/app/_utils/GlobalApi';
 import DoctorDetail from '../_components/DoctorDetail';
 
-async function Details({ params }) {
+export default async function Page({ params }) {
   const response = await GlobalApi.getDoctorById(params.recordId, new Date().toLocaleDateString("en-CA"))
   const doctor = response?.data?.data || null;
 
@@ -16,5 +16,3 @@ async function Details({ params }) {
     </div>
   )
 }
-
-export default Details;

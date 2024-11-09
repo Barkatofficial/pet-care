@@ -2,15 +2,10 @@ import { ClockIcon, MapPin } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import dynamic from 'next/dynamic';
-
-const BookService = dynamic(() => import('./BookService'), {
-  ssr: false
-})
+import BookService from './BookService';
 
 function ServiceDetail({ service }) {
 
-  // Helper function to render the "About" field
   const renderAboutContent = (aboutContent) => {
     if (Array.isArray(aboutContent)) {
       return aboutContent.map((block, index) => {

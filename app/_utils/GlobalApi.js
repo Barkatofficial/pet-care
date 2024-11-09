@@ -1,13 +1,13 @@
-const { default: axios } = require("axios");
+// const { default: axios } = require("axios");
 
-const API_KEY = process.env.NEXT_PUBLIC_STAPI_API_KEY;
+const API_URL = process.env.NEXT_PUBLIC_API_URL
 
-export const axiosClient = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
-    withCredentials: true,
-});
+// export const axiosClient = axios.create({
+//     baseURL: process.env.NEXT_PUBLIC_API_URL,
+//     withCredentials: true,
+// });
 
-const getCategory = () => axiosClient.get('/category'); 
+const getCategory = async () => await fetch(`${API_URL}/category`)
 
 const getDoctorList = () => axiosClient.get('/doctors?fields[0]=Name&fields[1]=Address&fields[2]=Experience_Year&populate[image][fields][0]=url&populate[category][fields][0]=Name');
 
@@ -25,15 +25,15 @@ const getUserBookingList = (userEmail) => axiosClient.get(`/appointments?filters
 const deleteBooking = (id) => axiosClient.delete('/appointments/' + id);
 const deleteBook = (id) => axiosClient.delete('/bookings/' + id);
 
-const getRecord = (userEmail, page = 1, pageSize = 10) => 
+const getRecord = (userEmail, page = 1, pageSize = 10) =>
     axiosClient.get(`/records?filters[email][$eq]=${userEmail}&pagination[page]=${page}&pagination[pageSize]=${pageSize}&populate=petDocuments`);
-const addRecord = (data) => axiosClient.post(`/records`,data);
+const addRecord = (data) => axiosClient.post(`/records`, data);
 
 
 
 export default {
-    getCategory,          
-    getDoctorList,     
+    getCategory,
+    getDoctorList,
     getDoctorById,
     getServiceById,
     getServiceByName,
@@ -45,5 +45,4 @@ export default {
     addRecord,
     getRecord,
     deleteBook
-    
 };
