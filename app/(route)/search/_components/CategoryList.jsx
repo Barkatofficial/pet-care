@@ -14,10 +14,10 @@ import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai'; // Icons for men
 
 function CategoryList({ categoryList }) {
   const pathname = usePathname();
-  const [currentCategory, setCurrentCategory] = useState('');
+  const [currentCategory, setCurrentCategory, selectedCategory] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(false); // State for opening/closing sidebar
 
-  let selectedCategory
+  
   useEffect(() => {
     selectedCategory = pathname.split('/')[2];
     console.log(selectedCategory)
