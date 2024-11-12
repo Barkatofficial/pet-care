@@ -25,7 +25,7 @@ export default function Navbar() {
 
     return (
         <header className="sticky top-0 z-50 bg-white shadow-md py-4">
-            <div className="container mx-auto flex items-center justify-between px-6">
+            <div className="flex items-center justify-between px-4 md:px-10">
                 {/* Logo */}
                 <Link href="/">
                     <Image
@@ -40,9 +40,9 @@ export default function Navbar() {
                 {/* Desktop Navigation */}
                 <nav className="hidden md:flex items-center space-x-6">
                     {NAV_MENU.map((item, idx) => (
-                        <Link 
-                            href={item.path} 
-                            key={idx} 
+                        <Link
+                            href={item.path}
+                            key={idx}
                             className="hover:text-yellow-500 duration-150"
                         >
                             {item.name}
@@ -50,12 +50,12 @@ export default function Navbar() {
                     ))}
 
                     {authLoading ? (
-                        <Preloader 
-                            bgHeight="40px" 
-                            bgWidth="40px" 
-                            width="2rem" 
-                            height="2rem" 
-                            color="#FFE39C" 
+                        <Preloader
+                            bgHeight="40px"
+                            bgWidth="40px"
+                            width="2rem"
+                            height="2rem"
+                            color="#FFE39C"
                         />
                     ) : (
                         user ? (
@@ -68,14 +68,14 @@ export default function Navbar() {
                                     className="rounded-full cursor-pointer"
                                 />
                                 <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg p-2 hidden group-hover:block">
-                                    <Link 
-                                        href="/profile" 
+                                    <Link
+                                        href="/profile"
                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
                                     >
                                         Profile
                                     </Link>
-                                    <Link 
-                                        href="/my-booking" 
+                                    <Link
+                                        href="/my-booking"
                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
                                     >
                                         My Bookings
@@ -115,10 +115,10 @@ export default function Navbar() {
             {isMenuOpen && (
                 <div className="fixed top-16 left-0 right-0 z-50 md:hidden bg-white shadow-lg h-[calc(100vh-4rem)] overflow-y-auto flex flex-col items-center space-y-4 py-6">
                     {NAV_MENU.map((item, idx) => (
-                        <Link 
-                            href={item.path} 
-                            key={idx} 
-                            onClick={handleMenuToggle} 
+                        <Link
+                            href={item.path}
+                            key={idx}
+                            onClick={handleMenuToggle}
                             className="text-lg font-medium text-gray-700 hover:text-yellow-500"
                         >
                             {item.name}
@@ -134,16 +134,16 @@ export default function Navbar() {
                                 height={50}
                                 className="rounded-full"
                             />
-                            <Link 
-                                href="/profile" 
-                                onClick={handleMenuToggle} 
+                            <Link
+                                href="/profile"
+                                onClick={handleMenuToggle}
                                 className="text-lg text-gray-700 hover:text-yellow-500"
                             >
                                 Profile
                             </Link>
-                            <Link 
-                                href="/my-booking" 
-                                onClick={handleMenuToggle} 
+                            <Link
+                                href="/my-booking"
+                                onClick={handleMenuToggle}
                                 className="text-lg text-gray-700 hover:text-yellow-500"
                             >
                                 My Bookings
@@ -159,7 +159,7 @@ export default function Navbar() {
                         <Link
                             href="/auth/login"
                             onClick={handleMenuToggle}
-                            className="w-full mx-6 bg-yellow-400 text-black py-2 px-6 rounded-lg font-medium hover:bg-yellow-500 transition-colors duration-200"
+                            className="mx-6 bg-yellow-400 text-black py-2 px-6 rounded-lg font-medium hover:bg-yellow-500 transition-colors duration-200"
                         >
                             Login
                         </Link>

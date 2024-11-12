@@ -16,7 +16,7 @@ import { Calendar } from "@/components/ui/calendar";
 import GlobalApi from "@/app/_utils/GlobalApi";
 import { toast } from "sonner";
 
-export default function BookService({ service_id, bookings }) {
+export default function BookService({ service_email, bookings }) {
     const [isPending, startTransition] = useTransition();
 
     const [date, setDate] = useState(new Date());
@@ -49,7 +49,7 @@ export default function BookService({ service_id, bookings }) {
                 email: user.email,
                 Time: selectedTimeSlot,
                 Date: formattedDate,
-                doctor: service_id,
+                doctor: service_email,
                 Note: note || ""  // Handle an empty note field
             }
         };
@@ -195,7 +195,7 @@ function getFreeTimeSlots(date, bookings) {
     let bookings_time = [];
     if (bookings.length > 0) {
         bookings_time = bookings.map((item) => {
-            return new Date(item.attributes.Date + " " + item.attributes.Time).getTime();
+            return new Date(item.date + " " + item.time).getTime();
         });
     }
 

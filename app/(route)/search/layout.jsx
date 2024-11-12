@@ -1,4 +1,3 @@
-import React from 'react'
 import CategoryListContainer from './_components/CategoryListContainer'
 
 export default function layout({ children }) {

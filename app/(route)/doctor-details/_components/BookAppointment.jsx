@@ -16,7 +16,7 @@ import { Calendar } from "@/components/ui/calendar";
 import GlobalApi from "@/app/_utils/GlobalApi";
 import { toast } from "sonner";
 
-export default function BookAppointment({ doctor_id, appointments }) {
+export default function BookAppointment({ doctor_email, appointments }) {
     const [isPending, startTransition] = useTransition();
 
     const [date, setDate] = useState(new Date());
@@ -46,7 +46,7 @@ export default function BookAppointment({ doctor_id, appointments }) {
                 email: user.email,
                 Time: selectedTimeSlot,
                 Date: formattedDate,
-                doctor: doctor_id,
+                doctor: doctor_email,
                 Note: note || ""
             }
         };
@@ -191,7 +191,7 @@ function getFreeTimeSlots(date, appointments) {
     let appointments_time = [];
     if (appointments.length > 0) {
         appointments_time = appointments.map((item) => {
-            return new Date(item.attributes.Date + " " + item.attributes.Time).getTime();
+            return new Date(item.date + " " + item.time).getTime();
         });
     }
 

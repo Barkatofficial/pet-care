@@ -1,20 +1,13 @@
-// const { default: axios } = require("axios");
-
 const API_URL = process.env.NEXT_PUBLIC_API_URL
 
-// export const axiosClient = axios.create({
-//     baseURL: process.env.NEXT_PUBLIC_API_URL,
-//     withCredentials: true,
-// });
+const getCategory = async () => await fetch(`${API_URL}/category`, { cache: 'force-cache' })
 
-const getCategory = async () => await fetch(`${API_URL}/category`)
+const getDoctorList = async () => await fetch(`${API_URL}/doctor`)
 
-const getDoctorList = () => axiosClient.get('/doctors?fields[0]=Name&fields[1]=Address&fields[2]=Experience_Year&populate[image][fields][0]=url&populate[category][fields][0]=Name');
+const getServiceByCategory = async (category_id) => await fetch(`${API_URL}/service?category_id=${category_id}`)
 
-const getDoctorById = (id, date) => axiosClient.get(`/doctors/${id}?filters[appointments][Date][$gte]=${date}&populate=*`);
-const getServiceById = (id, date) => axiosClient.get(`/services/${id}?filters[bookings][Date][$gte]=${date}&populate=*`);
-
-const getServiceByName = (name) => axiosClient.get(`/services?filters[category][Name][$eq]=${name}&fields[0]=Provider_name&fields[1]=Address&fields[2]=Open_time&populate[category][fields][0]=Name&populate[image][fields][0]=url`);
+const getDoctorByEmail = async (email) => await fetch(`${API_URL}/doctor/${email}`)
+const getServiceByEmail = async (email) => await fetch(`${API_URL}/service/${email}`)
 
 const bookAppointment = (data) => axiosClient.post('/appointments?populate=doctor', data);
 const bookService = (data) => axiosClient.post('/bookings?populate=service', data);
@@ -34,9 +27,9 @@ const addRecord = (data) => axiosClient.post(`/records`, data);
 export default {
     getCategory,
     getDoctorList,
-    getDoctorById,
-    getServiceById,
-    getServiceByName,
+    getDoctorByEmail,
+    getServiceByEmail,
+    getServiceByCategory,
     bookAppointment,
     bookService,
     getUserBookingList,
@@ -45,4 +38,4 @@ export default {
     addRecord,
     getRecord,
     deleteBook
-};
+}
