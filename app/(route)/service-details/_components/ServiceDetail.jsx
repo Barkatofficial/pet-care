@@ -5,23 +5,6 @@ import { Button } from '@/components/ui/button';
 import BookService from './BookService';
 
 export default function ServiceDetail({ service, email }) {
-
-  const renderAboutContent = (aboutContent) => {
-    if (Array.isArray(aboutContent)) {
-      return aboutContent.map((block, index) => {
-        if (block.type === 'paragraph') {
-          return (
-            <p key={index} className='text-gray-500 tracking-wide mt-2'>
-              {block.children?.map((child, idx) => child.text).join(' ')}
-            </p>
-          );
-        }
-        return null;
-      });
-    }
-    return <p className='text-gray-500 tracking-wide mt-2'>{aboutContent}</p>;
-  };
-
   return (
     <>
       <div className='grid grid-cols-1 md:grid-cols-3 border-[1px] p-5 mt-5 rounded-lg'>
@@ -49,17 +32,14 @@ export default function ServiceDetail({ service, email }) {
             Price: ₹{service.price}
           </h2>
 
-          <BookService
-            service_email={email}
-            bookings={service.booking}
-          />
+          <BookService service_email={email} />
         </div>
       </div>
 
       {/* About Provider */}
       <div className='p-3 border-[1px] rounded-lg mt-5'>
         <h2 className='font-bold text-[20px]'>About Me</h2>
-        {renderAboutContent(service.about)}
+        <p className='text-gray-500 tracking-wide mt-2'>{service.about}</p>
       </div>
 
       {/* Payment Section */}
@@ -73,5 +53,5 @@ export default function ServiceDetail({ service, email }) {
         </Button>
       </div>
     </>
-  );
+  )
 }

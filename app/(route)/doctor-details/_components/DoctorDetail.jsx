@@ -5,23 +5,6 @@ import { Button } from '@/components/ui/button';
 import BookAppointment from './BookAppointment';
 
 export default function DoctorDetail({ doctor, email }) {
-
-  const renderAboutContent = (aboutContent) => {
-    if (Array.isArray(aboutContent)) {
-      return aboutContent.map((block, index) => {
-        if (block.type === 'paragraph') {
-          return (
-            <p key={index} className='text-gray-500 tracking-wide mt-2'>
-              {block.children?.map((child, idx) => child.text).join(' ')}
-            </p>
-          );
-        }
-        return null;
-      });
-    }
-    return <p className='text-gray-500 tracking-wide mt-2'>{aboutContent}</p>;
-  };
-
   return (
     <>
       <div className='grid grid-cols-1 md:grid-cols-3 border-[1px] p-5 mt-5 rounded-lg'>
@@ -48,17 +31,14 @@ export default function DoctorDetail({ doctor, email }) {
             Consultation Fee: ₹{doctor.fees}
           </h2>
 
-          <BookAppointment
-            doctor_email={email}
-            appointments={doctor.appointment}
-          />
+          <BookAppointment doctor_email={email} />
         </div>
       </div>
 
       {/* About Doctor */}
       <div className='p-3 border-[1px] rounded-lg mt-5'>
         <h2 className='font-bold text-[20px]'>About Me</h2>
-        {renderAboutContent(doctor.about)}
+        <p className='text-gray-500 tracking-wide mt-2'>{doctor.about}</p>
       </div>
 
       {/* Payment Section */}

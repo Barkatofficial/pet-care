@@ -1,92 +1,84 @@
-"use client";
+'use client'
 import React, { useState, useTransition, useRef } from 'react';
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-    DialogClose
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { CalendarDays, Clock } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import GlobalApi from "@/app/_utils/GlobalApi";
 import { toast } from "sonner";
 
-export default function BookAppointment({ doctor_email, appointments }) {
-    const [isPending, startTransition] = useTransition();
+export default function BookAppointment({ doctor_email }) {
+    const [isPending, startTransition] = useTransition()
+    const [appointments, setAppointments] = useState([])
 
-    const [date, setDate] = useState(new Date());
-    const [selectedTimeSlot, setSelectedTimeSlot] = useState();
-    const [note, setNote] = useState("");
+    const [date, setDate] = useState(new Date())
+    const [selectedTimeSlot, setSelectedTimeSlot] = useState()
+    const [note, setNote] = useState()
 
-    const dialogCloseRef = useRef(null);
+    const dialogCloseRef = useRef(null)
 
-    const timeSlots = makeTimeSlots();
+    const timeSlots = makeTimeSlots()
 
-    const isPastDay = (day) => {
-        return day.getTime() + 24 * 3600 * 1000 <= new Date().getTime();
-    };
+    const isPastDay = (day) => day.getTime() + 24 * 3600 * 1000 <= new Date().getTime()
 
-    const saveBooking = () => {
-        if (!user || !user.given_name || !user.family_name || !user.email) {
-            console.error("User information is not available");
-            toast.error("User information is not available. Please log in.");
-            return;
+    async function handleBookAppointmentClick() {
+        try {
+            const res = await GlobalApi.getBookedAppointments(doctor_email, date.toLocaleDateString("en-CA"))
+            if (!res.ok) {
+                throw new Error('Network response was not ok')
+            }
+            const data = (await res.json()).data
+            setAppointments(data)
+        } catch (error) {
+            console.error('Error fetching booked appointments:', error)
         }
+    }
 
-        const formattedDate = date.toLocaleDateString("en-CA");
+    async function saveBooking() {
+        const formattedDate = date.toLocaleDateString("en-CA")
 
         const data = {
-            data: {
-                Username: `${user.given_name || "Guest"} ${user.family_name || "User"}`,
-                email: user.email,
-                Time: selectedTimeSlot,
-                Date: formattedDate,
-                doctor: doctor_email,
-                Note: note || ""
-            }
-        };
+            date: formattedDate,
+            time: selectedTimeSlot,
+            note: note,
+            doctor_email: doctor_email
+        }
 
-        startTransition(() => {
-            GlobalApi.bookAppointment(data).then(async (res) => {
-                if (res.status === 200) {
-                    toast("Booking Confirmation will be sent to your email", {
-                        style: { backgroundColor: '#28a745', color: 'white' },
-                    });
-                }
-            })
-                .catch((error) => {
-                    console.error("Error booking appointment:", error.response?.data || error.message);
-                })
-                .finally(() => {
-                    resetAppointment();
-                });
-        });
-    };
+        // startTransition(() => {
+        //     GlobalApi.bookAppointment(data).then(async (res) => {
+        //         if (res.status === 200) {
+        //             toast("Booking Confirmation will be sent to your email", {
+        //                 style: { backgroundColor: '#28a745', color: 'white' },
+        //             });
+        //         }
+        //     })
+        //         .catch((error) => {
+        //             console.error("Error booking appointment:", error.response?.data || error.message);
+        //         })
+        //         .finally(() => {
+        //             resetAppointment();
+        //         });
+        // });
+    }
 
-    const resetAppointment = () => {
-        setDate(new Date());
-        setSelectedTimeSlot();
-        dialogCloseRef.current.click();
-    };
+    function resetAppointment() {
+        setDate(new Date())
+        setSelectedTimeSlot()
+        dialogCloseRef.current.click()
+    }
 
     return (
         <Dialog>
-            <DialogTrigger>
-                <Button className="mt-3 rounded-full">Book Appointment</Button>
+            <DialogTrigger asChild onClick={handleBookAppointmentClick}>
+                <Button className="mt-3 rounded-full cursor-pointer">Book Appointment</Button>
             </DialogTrigger>
-            <DialogContent className="bg-white text-black max-w-md mx-auto max-h-screen overflow-y-auto overscroll-auto scroll-smooth">
+            <DialogContent className="bg-white text-black mx-auto max-h-screen overflow-y-auto overscroll-auto scroll-smooth">
                 <DialogHeader className="sticky top-0 bg-white z-10">
                     <DialogTitle>Book Appointment</DialogTitle>
                 </DialogHeader>
-                <DialogDescription className="space-y-4">
+                <DialogDescription className="space-y-4" asChild>
                     {/* Responsive Grid Layout */}
-                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-5">
-
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-4">
                         {/* Calendar */}
                         <div className="flex flex-col gap-3">
                             <h2 className="flex gap-2 items-center">
@@ -110,7 +102,7 @@ export default function BookAppointment({ doctor_email, appointments }) {
                             </h2>
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-2 border rounded-lg p-4 overflow-y-auto max-h-60">
                                 {timeSlots.map((time, index) => {
-                                    const isAvailable = getFreeTimeSlots(date, appointments).includes(time);
+                                    const isAvailable = getFreeTimeSlots(date, appointments).includes(time)
 
                                     return (
                                         <h2
@@ -143,7 +135,7 @@ export default function BookAppointment({ doctor_email, appointments }) {
                 {/* Updated DialogFooter */}
                 <DialogFooter className="sticky bottom-0 bg-white z-10 p-2 flex justify-between items-center space-x-2">
                     <div className="flex w-full space-x-2"> {/* Flex container added */}
-                        <DialogClose>
+                        <DialogClose asChild onClick={resetAppointment}>
                             <Button
                                 ref={dialogCloseRef}
                                 type="button"
@@ -181,27 +173,23 @@ function makeTimeSlots() {
 }
 
 function getFreeTimeSlots(date, appointments) {
-    const time_slots = makeTimeSlots();
-    const fullDate = date.toLocaleDateString("en-US", {
-        month: '2-digit',
-        day: '2-digit',
-        year: 'numeric',
-    });
+    const time_slots = makeTimeSlots()
+    date = date.toLocaleDateString("en-CA")
 
-    let appointments_time = [];
+    let appointments_time = []
     if (appointments.length > 0) {
         appointments_time = appointments.map((item) => {
-            return new Date(item.date + " " + item.time).getTime();
-        });
+            return new Date(item.date + " " + item.time).getTime()
+        })
     }
 
     const timeslots_time = time_slots.map((time) => {
-        return new Date(fullDate + " " + time).getTime();
-    });
+        return new Date(date + " " + time).getTime()
+    })
 
     const available_slots = time_slots.filter(
         (_, index) => !appointments_time.includes(timeslots_time[index])
-    );
+    )
 
-    return available_slots;
-};
+    return available_slots
+}

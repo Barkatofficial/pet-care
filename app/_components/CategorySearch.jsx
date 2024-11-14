@@ -15,7 +15,7 @@ export default function CategorySearch({ categoryList }) {
         {categoryList.map((item, index) => (
           <Link href={`/search/${item.id}/${item.name}`}
             key={index}
-            className="flex flex-col text-center items-center p-6 md:p-5 bg-blue-50 m-2 rounded-lg cursor-pointer gap-2 hover:scale-110 transition-all ease-in-out"
+            className="flex flex-col text-center items-center p-6 md:p-5 bg-blue-50 m-2 rounded-lg gap-2 hover:scale-110 transition-all ease-in-out"
           >
             <Image
               src={item.icon}
