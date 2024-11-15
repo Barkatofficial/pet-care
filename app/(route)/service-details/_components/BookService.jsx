@@ -34,32 +34,32 @@ export default function BookService({ service_email }) {
         }
     }
 
-    async function saveBooking() {
-        const formattedDate = date.toLocaleDateString("en-CA");
+    function saveBooking() {
+        const formattedDate = date.toLocaleDateString("en-CA")
 
-        const data = {
+        const bookingData = {
             date: formattedDate,
             time: selectedTimeSlot,
             note: note,
             service_email: service_email
         }
 
-        // startTransition(() => {
-        //     GlobalApi.bookAppointment(data).then(async (res) => {
-        //         if (res.status === 200) {
-        //             toast("Booking Confirmation will be sent to your email", {
-        //                 style: { backgroundColor: '#28a745', color: 'white' },
-        //             })
-        //         }
+        startTransition(async () => {
+            try {
+                const res = await GlobalApi.bookService(bookingData)
 
-        //     })
-        //         .catch((error) => {
-        //             console.error("Error booking appointment:", error.response?.data || error.message);
-        //         })
-        //         .finally(() => {
-        //             resetBooking();
-        //         });
-        // });
+                const data = await res.json()
+                if (!res.ok) throw new Error(data.message)
+
+                toast.success(data.message)
+            }
+            catch (err) {
+                toast.error(err.message)
+            }
+            finally {
+                resetAppointment()
+            }
+        })
     }
 
     function resetBooking() {
@@ -151,7 +151,7 @@ export default function BookService({ service_email }) {
                             onClick={saveBooking}
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 flex-1"
                         >
-                            Submit
+                            {isPending ? 'Submitting...' : 'Submit'}
                         </Button>
                     </div>
                 </DialogFooter>

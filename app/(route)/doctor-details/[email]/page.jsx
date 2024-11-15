@@ -14,7 +14,7 @@ export default async function Page({ params }) {
       <h2 className='font-bold text-[22px]'>Details</h2>
       <div className='grid grid-cols-1 lg:grid-cols-4'>
         <div className='col-span-3'>
-          <DoctorDetail doctor={data} email={email} />
+          <DoctorDetail doctor={data} email={decodeURIComponent(email)} />
         </div>
       </div>
     </div>

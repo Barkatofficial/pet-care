@@ -28,7 +28,9 @@ export default function LoginForm() {
       if (!res.ok) throw new Error(data.message)
 
       toast.success(data.message)
-      // router.push('/')
+      setTimeout(() => {
+        router.push('/')
+      }, 1000)
     }
     catch (err) {
       setError(err.message)

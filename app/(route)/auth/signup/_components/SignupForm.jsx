@@ -95,10 +95,10 @@ export default function SignupForm() {
       const data = await res.json()
       if (!res.ok) throw new Error(data.message)
 
-      toast.success(data.message) // see if it returns promise then router push
-      // setTimeout(() => {
-      //   router.push('/auth/login')
-      // }, 1500)
+      toast.success(data.message)
+      setTimeout(() => {
+        router.push('/auth/login')
+      }, 1000)
     }
     catch (err) {
       setError(err.message)

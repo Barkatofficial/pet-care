@@ -4,7 +4,7 @@ import ServiceList from '@/app/_components/ServiceList';
 
 export default async function Page({ params }) {
   const { id, name } = await params
-  const selectedCategory = decodeURI(name)
+  const selectedCategory = decodeURIComponent(name)
   let data
 
   const getDoctorList = async () => {

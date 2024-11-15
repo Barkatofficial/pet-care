@@ -31,7 +31,7 @@ const bookService = async (data) => await fetch(`${API_URL}/booking`, { method: 
 // const getUserAppointmentList
 // getUserBookingList
 
-// const getRecord // paginated
+// const getRecord(paginated)
 // const addRecord
 
 

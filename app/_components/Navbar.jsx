@@ -15,12 +15,10 @@ const NAV_MENU = [
 ];
 
 export default function Navbar() {
-    const { user, authLoading } = useAuthStore();
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { user, authLoading } = useAuthStore()
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-    const handleMenuToggle = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
+    const handleMenuToggle = () => setIsMenuOpen(!isMenuOpen)
 
 
     return (
@@ -69,13 +67,19 @@ export default function Navbar() {
                                 />
                                 <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg p-2 hidden group-hover:block">
                                     <Link
-                                        href="/profile"
+                                        href="/customer/profile"
                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
                                     >
                                         Profile
                                     </Link>
                                     <Link
-                                        href="/my-booking"
+                                        href="/customer/appointment"
+                                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
+                                    >
+                                        My Appointments
+                                    </Link>
+                                    <Link
+                                        href="/customer/booking"
                                         className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
                                     >
                                         My Bookings
@@ -135,14 +139,21 @@ export default function Navbar() {
                                 className="rounded-full"
                             />
                             <Link
-                                href="/profile"
+                                href="/customer/profile"
                                 onClick={handleMenuToggle}
                                 className="text-lg text-gray-700 hover:text-yellow-500"
                             >
                                 Profile
                             </Link>
                             <Link
-                                href="/my-booking"
+                                href="/customer/appointment"
+                                onClick={handleMenuToggle}
+                                className="text-lg text-gray-700 hover:text-yellow-500"
+                            >
+                                My Appointments
+                            </Link>
+                            <Link
+                                href="/customer/booking"
                                 onClick={handleMenuToggle}
                                 className="text-lg text-gray-700 hover:text-yellow-500"
                             >
