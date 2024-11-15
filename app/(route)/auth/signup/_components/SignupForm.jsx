@@ -1,112 +1,110 @@
 "use client"
-import { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { useRef, useState, useTransition } from 'react';
+import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import { Eye, EyeOff, Mail, User, Lock, ArrowLeft } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import GlobalApi from '@/app/_utils/GlobalApi';
+import { toast } from "sonner";
 
-const SignupForm = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-  });
-  const [otpValues, setOtpValues] = useState(['', '', '', '', '', '']);
-  const [showPassword, setShowPassword] = useState(false);
-  const [otpSent, setOtpSent] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const otpRefs = useRef([...Array(6)].map(() => useRef()));
+export default function SignupForm() {
+  const router = useRouter()
+  const [isPending, startTransition] = useTransition()
+  const [error, setError] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setError('');
-  };
+  const [otpSent, setOtpSent] = useState(false)
+  const [otpValues, setOtpValues] = useState(Array(6).fill(''))
+  const otpRefs = useRef(Array(6).fill(null))
 
-  const handleOtpChange = (index, value) => {
-    if (value.length > 1) return;
+  const { register, handleSubmit, formState: { errors, isSubmitting }, watch } = useForm()
+  const formData = watch()
 
-    const newOtpValues = [...otpValues];
-    newOtpValues[index] = value;
-    setOtpValues(newOtpValues);
+  async function handleGenerateOTP(formData) {
+    try {
+      const res = await GlobalApi.getOTP(formData.email)
 
-    if (value && index < 5) {
-      otpRefs.current[index + 1].current.focus();
+      const data = await res.json()
+      if (!res.ok) throw new Error("Failed to send OTP")
+
+      setOtpSent(true)
+      toast.success(data.message)
     }
-  };
+    catch (err) {
+      setError(err.message)
+    }
+  }
 
-  const handleKeyDown = (index, e) => {
+  function handleOtpChange(index, value) {
+    if (!isNaN(value)) {
+      const newOtpValues = [...otpValues]
+      newOtpValues[index] = value
+      setOtpValues(newOtpValues)
+
+      // Move to the next input if current input is filled
+      if (value && index < otpValues.length - 1) {
+        otpRefs.current[index + 1].focus()
+      }
+    }
+  }
+
+  function handleKeyDown(index, e) {
+    // Move back to previous input on backspace
     if (e.key === 'Backspace' && !otpValues[index] && index > 0) {
-      otpRefs.current[index - 1].current.focus();
+      otpRefs.current[index - 1].focus()
     }
-  };
+  }
 
   const handlePaste = (e) => {
-    e.preventDefault();
-    const pastedData = e.clipboardData.getData('text').slice(0, 6);
-    const newOtpValues = [...otpValues];
-    
-    [...pastedData].forEach((char, index) => {
-      if (index < 6) {
-        newOtpValues[index] = char;
+    const pastedData = e.clipboardData.getData('Text').split('')
+    if (pastedData.length <= 6) {
+      setOtpValues(pastedData)
+      pastedData.forEach((_, index) => {
+        if (otpRefs.current[index]) otpRefs.current[index].focus()
+      })
+    }
+  }
+
+  function handleSubmitOtp() {
+    setError('')
+    startTransition(async () => {
+      try {
+        const res = await GlobalApi.verifyOTP(formData.email, otpValues.join(''))
+
+        const data = await res.json()
+        if (!res.ok) throw new Error(data.message)
+
+        if (data.verified) {
+          await registerUser(formData)
+        }
       }
-    });
-    
-    setOtpValues(newOtpValues);
-  };
+      catch (err) {
+        setError(err.message)
+      }
+    })
+  }
 
-  const handleGenerateOTP = async (e) => {
-    e.preventDefault();
-    if (!formData.email || !formData.name || !formData.password) {
-      setError('Please fill in all fields');
-      return;
-    }
-    
-    // Basic password validation
-    if (formData.password.length < 8) {
-      setError('Password must be at least 8 characters long');
-      return;
-    }
-    
-    setLoading(true);
+  async function registerUser(formData) {
     try {
-      // Call your backend API here
-      // await generateOTP(formData.email);
-      setOtpSent(true);
-      setError('');
-    } catch (err) {
-      setError('Failed to send OTP. Please try again.');
-    }
-    setLoading(false);
-  };
+      const res = await GlobalApi.customerSignup(formData)
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const otp = otpValues.join('');
-    if (otp.length !== 6) {
-      setError('Please enter complete OTP');
-      return;
-    }
-    
-    setLoading(true);
-    try {
-      // Call your backend API here with the complete form data and OTP
-      // await verifyOTP({ ...formData, otp });
-      // Handle successful verification
-      console.log('Sign up successful');
-    } catch (err) {
-      setError('Invalid OTP. Please try again.');
-    }
-    setLoading(false);
-  };
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.message)
 
-  const handleBackToForm = () => {
-    setOtpSent(false);
-    setOtpValues(['', '', '', '', '', '']);
-    setError('');
-  };
+      toast.success(data.message) // see if it returns promise then router push
+      // setTimeout(() => {
+      //   router.push('/auth/login')
+      // }, 1500)
+    }
+    catch (err) {
+      setError(err.message)
+      setOtpValues(Array(6).fill(''))
+    }
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -124,48 +122,40 @@ const SignupForm = () => {
           )}
 
           {!otpSent ? (
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit(handleGenerateOTP)}>
               <div className="space-y-1">
                 <div className="relative">
                   <Input
                     type="text"
-                    name="name"
                     placeholder="Full Name"
-                    value={formData.name}
-                    onChange={handleChange}
+                    {...register('name', { required: "Full Name is required" })}
                     className="pl-10"
-                    required
                   />
                   <User className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 </div>
+                {errors.name && <span className="text-red-500">{errors.name.message}</span>}
               </div>
 
               <div className="space-y-1">
                 <div className="relative">
                   <Input
                     type="email"
-                    name="email"
                     placeholder="Email Address"
-                    value={formData.email}
-                    onChange={handleChange}
+                    {...register('email', { required: "Email is required" })}
                     className="pl-10"
-                    required
                   />
                   <Mail className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                 </div>
+                {errors.email && <span className="text-red-500">{errors.email.message}</span>}
               </div>
 
               <div className="space-y-1">
                 <div className="relative">
                   <Input
                     type={showPassword ? "text" : "password"}
-                    name="password"
                     placeholder="Password (min 8 characters)"
-                    value={formData.password}
-                    onChange={handleChange}
+                    {...register('password', { required: "Password is required", minLength: { value: 8, message: "Minimum length is 8" } })}
                     className="pl-10 pr-10"
-                    required
-                    minLength={8}
                   />
                   <Lock className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                   <button
@@ -180,40 +170,35 @@ const SignupForm = () => {
                     )}
                   </button>
                 </div>
+                {errors.password && <span className="text-red-500">{errors.password.message}</span>}
               </div>
 
+              {/* Generate OTP Button */}
               <Button
                 className="w-full"
-                onClick={handleGenerateOTP}
-                disabled={loading}
+                type="submit"
+                disabled={isSubmitting}
               >
-                {loading ? 'Sending...' : 'Generate OTP'}
+                {isSubmitting ? 'Sending...' : 'Generate OTP'}
               </Button>
 
               {/* Login Link */}
               <div className="text-center mt-4">
                 <p className="text-sm text-gray-600">
                   Already have an account?{' '}
-                  <Link 
-                    href="/auth/login" 
-                    className="text-blue-600 hover:text-blue-800 font-semibold"
-                  >
-                    Log In
-                  </Link>
+                  <Link href="/auth/login" className="text-blue-600 hover:text-blue-800 font-semibold">Log In</Link>
                 </p>
               </div>
             </form>
           ) : (
+            // OTP Input Form
             <div className="space-y-4">
-              <p className="text-center text-sm text-gray-600">
-                We've sent a verification code to <span className="font-semibold">{formData.email}</span>
-              </p>
-              
+              {/* OTP Inputs */}
               <div className="flex justify-center space-x-2">
                 {otpValues.map((value, index) => (
                   <Input
                     key={index}
-                    ref={otpRefs.current[index]}
+                    ref={(el) => (otpRefs.current[index] = el)}
                     type="text"
                     value={value}
                     onChange={(e) => handleOtpChange(index, e.target.value)}
@@ -225,18 +210,23 @@ const SignupForm = () => {
                 ))}
               </div>
 
+              {/* Verify Button */}
               <Button
                 className="w-full"
-                onClick={handleSubmit}
-                disabled={loading || otpValues.join('').length !== 6}
+                onClick={handleSubmitOtp}
+                disabled={isPending || otpValues.join('').length !== 6}
               >
-                {loading ? 'Verifying...' : 'Verify & Continue'}
+                {isPending ? 'Verifying...' : 'Verify & Continue'}
               </Button>
 
+              {/* Back to Signup Link */}
               <div className="text-center">
                 <button
                   type="button"
-                  onClick={handleBackToForm}
+                  onClick={() => {
+                    setOtpSent(false)
+                    setOtpValues(Array(6).fill(''))
+                  }}
                   className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700"
                 >
                   <ArrowLeft className="w-4 h-4 mr-1" />
@@ -249,6 +239,4 @@ const SignupForm = () => {
       </Card>
     </div>
   );
-};
-
-export default SignupForm;
+}
