@@ -1,33 +1,36 @@
-import React, { useEffect, useState, useTransition } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import GlobalApi from '@/app/_utils/GlobalApi';
 import Pagination from '@mui/material/Pagination';
 import Preloader from '@/app/_components/Loader';
+import { toast } from 'sonner'
 import Link from 'next/link';
+import Image from 'next/image';
 
-export default function RecordList({ user }) {
+export default function RecordList() {
     const [isPending, startTransition] = useTransition();
     const [records, setRecords] = useState([]);
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
 
-    const fetchRecords = (page) => {
-        try {
-            startTransition(async () => {
-                if (user?.email) {
-                    const response = await GlobalApi.getRecord(user.email, page);
-                    setRecords(response.data.data);
-                    console.log(response.data.data);
-                    setTotalPages(response.data.meta.pagination.pageCount);
-                }
-            });
-        } catch (error) {
-            console.error('Error fetching records:', error);
-        }
-    };
-
     useEffect(() => {
-        fetchRecords(page);
-    }, [user, page]);
+        fetchRecords(page)
+    }, [page])
+
+    function fetchRecords(page) {
+        startTransition(async () => {
+            try {
+                const res = await GlobalApi.getRecords(page)
+                const data = await res.json()
+
+                if (!res.ok) throw new Error(data.message)
+                setRecords(data.data)
+                // setTotalPages(response.data.meta.pagination.pageCount)
+            }
+            catch (err) {
+                toast.error(err.message)
+            }
+        })
+    }
 
     const handlePageChange = (event, value) => setPage(value);
 
@@ -39,55 +42,60 @@ export default function RecordList({ user }) {
             <div className="flex gap-6 flex-wrap">
                 {records.map((record, idx) => (
                     <div key={idx} className="p-4 border rounded-lg shadow">
-                        <p><strong>Pet Name:</strong> {record.attributes.petName}</p>
-                        <p><strong>Type:</strong> {record.attributes.type}</p>
-                        <p><strong>Medical History:</strong> {record.attributes.medicalHistory}</p>
+                        <p><strong>Pet Name:</strong> {record.pet_name}</p>
+                        <p><strong>Type:</strong> {record.type}</p>
+                        <p><strong>Medical History:</strong> {record.medical_history}</p>
 
-                        {/* Additional Fields: Age, Weight */}
-                        {record.attributes.age && (
-                            <p><strong>Age:</strong> {record.attributes.age} years</p>
+                        {record.age && (
+                            <p><strong>Age:</strong> {record.age} years</p>
                         )}
-                        {record.attributes.weight && (
-                            <p><strong>Weight:</strong> {record.attributes.weight} kg</p>
+                        {record.weight && (
+                            <p><strong>Weight:</strong> {record.weight} kg</p>
                         )}
 
                         {/* Additional Field: Emergency Contact */}
-                        {record.attributes.Emergency_contact && (
-                            <p><strong>Emergency Contact:</strong> {record.attributes.Emergency_contact}</p>
+                        {record.emergency_contact && (
+                            <p><strong>Emergency Contact:</strong> {record.emergency_contact}</p>
                         )}
 
 
-                        {record.attributes.symptom && (
-                            <p><strong>Symptom:</strong> {record.attributes.symptom}</p>
+                        {record.symptom && (
+                            <p><strong>Symptom:</strong> {record.symptom}</p>
                         )}
 
 
                         {/* Vaccination Dates */}
-                        {record.attributes.lastVaccinationDate && (
-                            <p><strong>Last Vaccination Date:</strong> {record.attributes.lastVaccinationDate}</p>
+                        {record.last_vaccination && (
+                            <p><strong>Last Vaccination Date:</strong> {record.last_vaccination}</p>
                         )}
-                        {record.attributes.nextVaccinationDate && (
-                            <p><strong>Next Vaccination Date:</strong> {record.attributes.nextVaccinationDate}</p>
-                        )}
-
-                        {/* Documents: petDocuments (from Strapi) */}
-                        {record.attributes.petDocuments?.data?.[0]?.attributes?.url && (
-                            <p>
-                                <strong>Document:</strong>
-                                <Link
-                                    href={record.attributes.petDocuments.data[0].attributes.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="text-blue-600 hover:underline ml-2"
-                                >
-                                    Download
-                                </Link>
-                            </p>
+                        {record.next_vaccination && (
+                            <p><strong>Next Vaccination Date:</strong> {record.next_vaccination}</p>
                         )}
 
                         {/* External document link */}
-                        {record.attributes.documentLink && (
-                            <p><strong>Document URL:</strong> <Link href={record.attributes.documentLink} target="_blank" rel="noopener noreferrer">{record.attributes.documentLink}</Link></p>
+                        {record.document_link && (
+                            <div className='flex'>
+                                <p><strong>Document URL:</strong></p>
+                                <div className='flex px-2'>
+                                    {record.document_link.map((item, idx) => (
+                                        <Link href={item} key={idx} target="_blank" rel="noopener noreferrer" className='hover:text-blue-600 mr-2'>{`Link-${idx}`}</Link>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {record.pet_documents && (
+                            <div className='flex gap-2'>
+                                {record.pet_documents.map((item, idx) => (
+                                    <Image
+                                        src={item}
+                                        alt='pet_document'
+                                        key={idx}
+                                        width={150}
+                                        height={150}
+                                    />
+                                ))}
+                            </div>
                         )}
                     </div>
                 ))}
@@ -99,5 +107,5 @@ export default function RecordList({ user }) {
                 className="mt-4"
             />
         </div>
-    );
-};
+    )
+}

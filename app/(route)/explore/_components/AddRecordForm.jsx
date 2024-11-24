@@ -2,7 +2,27 @@ import React, { useRef, useState, useTransition } from 'react';
 import { toast } from 'sonner';
 import GlobalApi from '@/app/_utils/GlobalApi';
 
-const AddRecordForm = ({ user }) => {
+const DogBreeds = {
+    "Labrador Retriever": "LABRADOR_RETRIEVER",
+    "German Shepherd": "GERMAN_SHEPHERD",
+    "Bulldog": "BULLDOG",
+    "Poodle": "POODLE",
+    "Beagle": "BEAGLE",
+    "Golden Retriever": "GOLDEN_RETRIEVER",
+    "Husky": "HUSKY",
+    "Indian Breed": "INDIAN_BREED",
+}
+
+const Symptoms = {
+    "Coughing": "COUGHING",
+    "Sneezing": "SNEEZING",
+    "Vomiting": "VOMITING",
+    "Diarrhea": "DIARRHEA",
+    "Lethargy": "LETHARGY",
+    "Loss of Appetite": "LOSS_OF_APPETITE",
+}
+
+export default function AddRecordForm() {
     const fileRef = useRef(null);
     const [isPending, startTransition] = useTransition();
 
@@ -12,7 +32,7 @@ const AddRecordForm = ({ user }) => {
     const [symptom, setSymptom] = useState('');
     const [age, setAge] = useState('');
     const [weight, setWeight] = useState('');
-    const [Emergency_contact, setEmergencyContact] = useState('');
+    const [emergencyContact, setEmergencyContact] = useState('');
     const [petDocuments, setPetDocuments] = useState(null);
     const [documentLink, setDocumentURL] = useState('');
     const [lastVaccinationDate, setLastVaccinationDate] = useState('');
@@ -20,70 +40,58 @@ const AddRecordForm = ({ user }) => {
 
     const handleFileChange = (e) => setPetDocuments(e.target.files[0]);
 
-    const handleSubmit = (e) => {
+    function handleSubmit(e) {
         e.preventDefault();
 
-        if (!user?.email) {
-            toast.error("User email is not available. Please ensure you're logged in.", {
-                style: { backgroundColor: '#dc3545', color: 'white' },
-            });
-            return;
-        }
-
-        if (!type || !petName || !medicalHistory || !symptom || !age || !weight || !Emergency_contact) {
-            toast.error("Please fill in all required fields.", {
-                style: { backgroundColor: '#dc3545', color: 'white' },
-            });
-            return;
+        if (!type || !petName || !medicalHistory || !symptom || !age || !weight || !emergencyContact) {
+            toast.error("Please fill in all required fields.")
+            return
         }
 
         let data = {
             type,
-            petName,
-            email: user.email,
-            medicalHistory,
+            pet_name: petName,
+            medical_history: medicalHistory,
             symptom,
+            last_vaccination: lastVaccinationDate,
+            next_vaccination: nextVaccinationDate,
             age,
             weight,
-            Emergency_contact,
-            lastVaccinationDate,
-            nextVaccinationDate
+            emergency_contact: emergencyContact,
         };
 
         if (documentLink !== "") {
-            Object.assign(data, { documentLink });
+            Object.assign(data, { document_link: documentLink });
         }
 
-        const formData = new FormData();
-        formData.append("data", JSON.stringify(data));
+        const formData = new FormData()
+        Object.entries(data).forEach(([key, value]) => {
+            formData.append(key, value)
+        })
 
         if (petDocuments) {
-            formData.append("files.petDocuments", petDocuments);
+            formData.append("documents", petDocuments);
         }
 
-        try {
-            startTransition(async () => {
-                const response = await GlobalApi.addRecord(formData);
+        startTransition(async () => {
+            try {
+                const res = await GlobalApi.addRecord(formData);
+                const data = await res.json()
 
-                if (response.status === 200) {
-                    toast.success(`Record for ${petName} added successfully!`, {
-                        style: { backgroundColor: '#28a745', color: 'white' },
-                    });
-                    resetForm();
-                } else {
-                    toast.error('Failed to add record. Please try again.', {
-                        style: { backgroundColor: '#dc3545', color: 'white' },
-                    });
-                }
-            });
-        } catch (error) {
-            toast.error('Failed to add record. Please try again.', {
-                style: { backgroundColor: '#dc3545', color: 'white' },
-            });
-        }
-    };
+                if (!res.ok) throw new Error(data.message)
 
-    const resetForm = () => {
+                toast.success(data.message)
+            }
+            catch (err) {
+                toast.error(err.message)
+            }
+            finally {
+                resetForm()
+            }
+        })
+    }
+
+    function resetForm() {
         fileRef.current.value = '';
         setType('');
         setPetName('');
@@ -111,15 +119,11 @@ const AddRecordForm = ({ user }) => {
                     className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
                 >
                     <option value="">Select a breed</option>
-                    <option value="Labrador Retriever">Labrador Retriever</option>
-                    <option value="German Shepherd">German Shepherd</option>
-                    <option value="Bulldog">Bulldog</option>
-                    <option value="Poodle">Poodle</option>
-                    <option value="Beagle">Beagle</option>
-                    <option value="Golden Retriever">Golden Retriever</option>
-                    <option value="Husky">Husky</option>
-                    <option value="Indian Breed">Indian Breed</option>
-                    <option value="Street Dog">Street Dog</option>
+                    {Object.entries(DogBreeds).map(([key, value]) => (
+                        <option key={key} value={value}>
+                            {key}
+                        </option>
+                    ))}
                 </select>
             </div>
 
@@ -153,13 +157,11 @@ const AddRecordForm = ({ user }) => {
                     className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
                 >
                     <option value="">Select a symptom</option>
-                    <option value="Coughing">Coughing</option>
-                    <option value="Sneezing">Sneezing</option>
-                    <option value="Vomiting">Vomiting</option>
-                    <option value="Diarrhea">Diarrhea</option>
-                    <option value="Lethargy">Lethargy</option>
-                    <option value="Loss of Appetite">Loss of Appetite</option>
-                    <option value="No Symptoms">No Symptoms</option>
+                    {Object.entries(Symptoms).map(([key, value]) => (
+                        <option key={key} value={value}>
+                            {key}
+                        </option>
+                    ))}
                 </select>
             </div>
 
@@ -189,7 +191,7 @@ const AddRecordForm = ({ user }) => {
                 <label className="block text-gray-700">Emergency Contact</label>
                 <input
                     type="text"
-                    value={Emergency_contact}
+                    value={emergencyContact}
                     onChange={(e) => setEmergencyContact(e.target.value)}
                     required
                     className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
@@ -221,15 +223,17 @@ const AddRecordForm = ({ user }) => {
                 <input
                     ref={fileRef}
                     type="file"
+                    required
                     onChange={handleFileChange}
                     className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
                 />
             </div>
 
             <div>
-                <label className="block text-gray-700">Document URL (Optional)</label>
+                <label className="block text-gray-700">Document URL</label>
                 <input
                     type="url"
+                    required
                     value={documentLink}
                     onChange={(e) => setDocumentURL(e.target.value)}
                     className="w-full mt-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
@@ -238,9 +242,8 @@ const AddRecordForm = ({ user }) => {
 
             <button
                 type="submit"
-                className={`w-full py-3 mt-6 text-white rounded-lg ${
-                    isPending ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'
-                }`}
+                className={`w-full py-3 mt-6 text-white rounded-lg ${isPending ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'
+                    }`}
                 disabled={isPending}
             >
                 {isPending ? 'Adding Record...' : 'Add Record'}
@@ -248,5 +251,3 @@ const AddRecordForm = ({ user }) => {
         </form>
     );
 };
-
-export default AddRecordForm;

@@ -2,11 +2,9 @@
 import React, { useState } from 'react';
 import RecordList from './RecordList';
 import AddRecordForm from './AddRecordForm';
-import { useAuthStore } from '@/store/auth';
 
 export default function Dashboard() {
     const [view, setView] = useState("form");
-    const { user, authLoading } = useAuthStore();
 
     return (
         <div className="max-w-6xl mx-auto p-8 bg-gray-50 rounded-lg shadow-md mt-10 min-h-screen">
@@ -26,8 +24,8 @@ export default function Dashboard() {
                 </button>
             </div>
             <div className="w-full justify-center flex p-6">
-                {view === 'form' && <AddRecordForm user={user} />}
-                {view === 'records' && <RecordList user={user} />}
+                {view === 'form' && <AddRecordForm />}
+                {view === 'records' && <RecordList />}
             </div>
         </div>
     );

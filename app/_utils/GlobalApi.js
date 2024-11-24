@@ -32,9 +32,9 @@ const userAppointmentList = async () => await fetch(`${API_URL}/customer/appoint
 
 const userBookingList = async () => await fetch(`${API_URL}/customer/bookings`, { credentials: 'include' })
 
-const addRecord = async (data) => await fetch(`${API_URL}/record`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data), credentials: 'include' })
+const addRecord = async (formData) => await fetch(`${API_URL}/record`, { method: 'POST', body: formData, credentials: 'include' })
 
-const getRecords = async () => await fetch(`${API_URL}/record`, { credentials: 'include' })
+const getRecords = async (page) => await fetch(`${API_URL}/record`, { credentials: 'include' })
 
 
 export default {
