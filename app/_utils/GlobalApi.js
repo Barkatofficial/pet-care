@@ -28,12 +28,13 @@ const bookAppointment = async (data) => await fetch(`${API_URL}/appointment`, { 
 
 const bookService = async (data) => await fetch(`${API_URL}/booking`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data), credentials: 'include' })
 
-// const getUserAppointmentList
-// getUserBookingList
+const userAppointmentList = async () => await fetch(`${API_URL}/customer/appointments`, { credentials: 'include' })
 
-// const getRecord(paginated)
-// const addRecord
+const userBookingList = async () => await fetch(`${API_URL}/customer/bookings`, { credentials: 'include' })
 
+const addRecord = async (data) => await fetch(`${API_URL}/record`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data), credentials: 'include' })
+
+const getRecords = async () => await fetch(`${API_URL}/record`, { credentials: 'include' })
 
 
 export default {
@@ -51,4 +52,8 @@ export default {
     customerLogout,
     bookAppointment,
     bookService,
+    userAppointmentList,
+    userBookingList,
+    addRecord,
+    getRecords
 }

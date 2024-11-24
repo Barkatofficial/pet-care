@@ -1,43 +1,45 @@
 "use client"
-import React, { useState, useEffect, useTransition } from 'react'
+import { useState, useEffect, useTransition } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import BookingList from './_components/BookingList'
 import GlobalApi from '@/app/_utils/GlobalApi'
 import Preloader from '@/app/_components/Loader'
+import moment from 'moment/moment'
+import { toast } from 'sonner'
 
 export default function Page() {
     const [isPending, startTransition] = useTransition()
-    const [bookingList, setBookingList] = useState([]);
+    const [bookingList, setBookingList] = useState([])
 
-    // useEffect(() => {
-    //     if (user) {
-    //         getUserBookingList();
-    //     }
-    // }, [user]);
+    useEffect(() => {
+        getUserBookingList()
+    }, [])
 
-    const getUserBookingList = () => {
-        startTransition(() => {
-            GlobalApi.getUserBookingList(user?.email).then(resp => {
-                setBookingList(resp.data.data || []); // Ensure it sets an array
-            }).catch(err => {
-                console.error('Error fetching bookings:', err);
-                setBookingList([]); // Set to an empty array in case of error
-            });
+    function getUserBookingList() {
+        startTransition(async () => {
+            try {
+                const res = await GlobalApi.userBookingList()
+                const data = await res.json()
+
+                if (!res.ok) throw new Error(data.message)
+                    setBookingList(data.data)
+            }
+            catch (err) {
+                toast.error(err.message)
+            }
         })
     }
 
     const filterUserBooking = (type) => {
-        if (!bookingList || bookingList.length === 0) {
-            return [];
-        }
+        if (!bookingList || bookingList.length === 0) return []
 
         const result = bookingList.filter(item =>
             type === 'upcoming'
-                ? new Date(item.attributes.Date) >= new Date()
-                : new Date(item.attributes.Date) < new Date()
-        );
+                ? moment(item.date, "DD-MM-YYYY") >= new Date()
+                : moment(item.date, "DD-MM-YYYY") < new Date()
+        )
 
-        return result;
+        return result
     }
 
     if (isPending) return <Preloader bgHeight="100%" width="3rem" height="3rem" color="#0D7Dff" />
@@ -51,16 +53,12 @@ export default function Page() {
                 </TabsList>
                 <TabsContent value="upcoming">
                     <BookingList
-                        bookingList={filterUserBooking('upcoming')}
-                        updateRecord={() => getUserBookingList}
-                        expired={false}
+                        list={filterUserBooking('upcoming')}
                     />
                 </TabsContent>
                 <TabsContent value="expired">
                     <BookingList
-                        bookingList={filterUserBooking('expired')}
-                        updateRecord={() => getUserBookingList}
-                        expired={true}
+                        list={filterUserBooking('expired')}
                     />
                 </TabsContent>
             </Tabs>
