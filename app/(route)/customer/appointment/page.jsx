@@ -35,10 +35,9 @@ export default function Page() {
         const result = appointmentList.filter((item) => {
             const [day, month, year] = item.date.split('/')
             const ISOFormattedDate = `${year}-${month}-${day}`
+            const appointmentTime = new Date(ISOFormattedDate + " " + item.time).getTime()
 
-            return type === 'upcoming'
-                ? new Date(ISOFormattedDate + " " + item.time) >= new Date().getTime()
-                : new Date(ISOFormattedDate + " " + item.time) < new Date().getTime()
+            return type === 'upcoming' ? appointmentTime >= new Date().getTime() : appointmentTime < new Date().getTime()
         })
 
         return result

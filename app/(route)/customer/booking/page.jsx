@@ -35,10 +35,9 @@ export default function Page() {
         const result = bookingList.filter((item) => {
             const [day, month, year] = item.date.split('/')
             const ISOFormattedDate = `${year}-${month}-${day}`
+            const bookingTime = new Date(ISOFormattedDate + " " + item.time).getTime()
 
-            return type === 'upcoming'
-                ? new Date(ISOFormattedDate + " " + item.time) >= new Date().getTime()
-                : new Date(ISOFormattedDate + " " + item.time) < new Date().getTime()
+            return type === 'upcoming' ? bookingTime >= new Date().getTime() : bookingTime < new Date().getTime()
         })
 
         return result
