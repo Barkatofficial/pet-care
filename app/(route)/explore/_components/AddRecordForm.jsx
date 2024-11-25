@@ -60,14 +60,14 @@ export default function AddRecordForm() {
             emergency_contact: emergencyContact,
         };
 
-        if (documentLink !== "") {
-            Object.assign(data, { document_link: documentLink });
-        }
-
         const formData = new FormData()
         Object.entries(data).forEach(([key, value]) => {
             formData.append(key, value)
         })
+
+        if (documentLink !== "") {
+            formData.append("document_link", documentLink)
+        }
 
         if (petDocuments) {
             formData.append("documents", petDocuments);
