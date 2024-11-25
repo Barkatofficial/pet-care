@@ -1,7 +1,7 @@
 import { Calendar, Clock, MapPin } from 'lucide-react';
 import moment from 'moment/moment';
 
-export default function AppointmentList({ list }) {
+export default function AppointmentsTab({ list }) {
   return (
     <div className='flex'>
       {list && list.length > 0 ? (
