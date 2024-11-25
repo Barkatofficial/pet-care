@@ -4,7 +4,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import BookingList from './_components/BookingList'
 import GlobalApi from '@/app/_utils/GlobalApi'
 import Preloader from '@/app/_components/Loader'
-import moment from 'moment/moment'
 import { toast } from 'sonner'
 
 export default function Page() {
@@ -22,7 +21,7 @@ export default function Page() {
                 const data = await res.json()
 
                 if (!res.ok) throw new Error(data.message)
-                    setBookingList(data.data)
+                setBookingList(data.data)
             }
             catch (err) {
                 toast.error(err.message)
@@ -33,11 +32,14 @@ export default function Page() {
     const filterUserBooking = (type) => {
         if (!bookingList || bookingList.length === 0) return []
 
-        const result = bookingList.filter(item =>
-            type === 'upcoming'
-                ? moment(item.date, "DD-MM-YYYY") >= new Date()
-                : moment(item.date, "DD-MM-YYYY") < new Date()
-        )
+        const result = bookingList.filter((item) => {
+            const [day, month, year] = item.date.split('/')
+            const ISOFormattedDate = `${year}-${month}-${day}`
+
+            return type === 'upcoming'
+                ? new Date(ISOFormattedDate + " " + item.time) >= new Date().getTime()
+                : new Date(ISOFormattedDate + " " + item.time) < new Date().getTime()
+        })
 
         return result
     }
