@@ -81,12 +81,10 @@ export default function AddRecordForm() {
                 if (!res.ok) throw new Error(data.message)
 
                 toast.success(data.message)
+                resetForm()
             }
             catch (err) {
                 toast.error(err.message)
-            }
-            finally {
-                resetForm()
             }
         })
     }

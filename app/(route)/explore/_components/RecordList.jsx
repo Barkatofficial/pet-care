@@ -85,17 +85,14 @@ export default function RecordList() {
                         )}
 
                         {record.pet_documents && (
-                            <div className='flex gap-2'>
+                            <div className='flex'>
+                            <p><strong>Pet Documents:</strong></p>
+                            <div className='flex px-2'>
                                 {record.pet_documents.map((item, idx) => (
-                                    <Image
-                                        src={item}
-                                        alt='pet_document'
-                                        key={idx}
-                                        width={150}
-                                        height={150}
-                                    />
+                                    <Link href={item} key={idx} target="_blank" rel="noopener noreferrer" className='hover:text-blue-600 mr-2'>Link</Link>
                                 ))}
                             </div>
+                        </div>
                         )}
                     </div>
                 ))}
