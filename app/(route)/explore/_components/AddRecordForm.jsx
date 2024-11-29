@@ -1,4 +1,4 @@
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { useForm, Controller } from 'react-hook-form';
 import GlobalApi from '@/app/_utils/GlobalApi';
@@ -8,8 +8,7 @@ export default function AddRecord() {
     const [dogBreeds, setDogBreeds] = useState([])
     const [symptoms, setSymptoms] = useState([])
 
-    const [isPending, startTransition] = useTransition();
-    const { control, handleSubmit, register, reset, setValue, formState: { errors } } = useForm();
+    const { control, handleSubmit, register, reset, setValue, formState: { errors, isSubmitting } } = useForm();
 
     useEffect(() => {
         getDogBreedsAndSymptoms()
@@ -18,9 +17,14 @@ export default function AddRecord() {
     async function getDogBreedsAndSymptoms() {
         setLoading(true)
         try {
-            const [res_1, res_2] = await Promise.all([GlobalApi.getDogBreeds(), GlobalApi.getSymptoms()])
-            const data_1 = await res_1.json()
-            const data_2 = await res_2.json()
+            const [res_1, res_2] = await Promise.all([
+                GlobalApi.getDogBreeds(),
+                GlobalApi.getSymptoms()
+            ])
+            const [data_1, data_2] = await Promise.all([
+                res_1.json(),
+                res_2.json()
+            ])
 
             if (!res_1.ok || !res_2.ok) throw new Error("Failed to fetch dog breeds and symptoms")
 
@@ -60,20 +64,18 @@ export default function AddRecord() {
             })
         }
 
-        startTransition(async () => {
-            try {
-                const res = await GlobalApi.addRecord(formData);
-                const data = await res.json()
+        try {
+            const res = await GlobalApi.addRecord(formData);
+            const data = await res.json()
 
-                if (!res.ok) throw new Error(data.message)
+            if (!res.ok) throw new Error(data.message)
 
-                toast.success(data.message)
-                reset()
-            }
-            catch (err) {
-                toast.error(err.message)
-            }
-        })
+            toast.success(data.message)
+            reset()
+        }
+        catch (err) {
+            toast.error(err.message)
+        }
     }
 
     return (
@@ -212,6 +214,7 @@ export default function AddRecord() {
                     <input
                         type="file"
                         multiple
+                        required
                         className="w-full p-1.5 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200"
                         onChange={handleFileChange}
                     />
@@ -230,10 +233,10 @@ export default function AddRecord() {
 
             <button
                 type="submit"
-                className={`w-full py-3 mt-6 text-white rounded-lg ${isPending ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'}`}
-                disabled={isPending}
+                className={`w-full py-3 mt-6 text-white rounded-lg ${isSubmitting ? 'bg-gray-400' : 'bg-blue-600 hover:bg-blue-700'}`}
+                disabled={isSubmitting}
             >
-                {isPending ? 'Adding Record...' : 'Add Record'}
+                {isSubmitting ? 'Adding Record...' : 'Add Record'}
             </button>
         </form>
     )

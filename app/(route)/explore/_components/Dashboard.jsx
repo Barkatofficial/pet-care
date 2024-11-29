@@ -1,10 +1,22 @@
 "use client"
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import RecordList from './RecordList';
 import AddRecordForm from './AddRecordForm';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function Dashboard() {
-    const [view, setView] = useState("form");
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const initialView = searchParams.get('view') || 'form';
+
+    const [view, setView] = useState(initialView);
+
+    useEffect(() => {
+        const queryParams = new URLSearchParams(window.location.search);
+        queryParams.set('view', view);
+        const newURL = `${window.location.pathname}?${queryParams.toString()}`;
+        router.push(newURL);
+    }, [view, router]);
 
     return (
         <div className="max-w-6xl mx-auto p-8 bg-gray-50 rounded-lg shadow-md mt-10 min-h-screen">
@@ -12,13 +24,15 @@ export default function Dashboard() {
             <div className="flex justify-center space-x-4 mb-4">
                 <button
                     onClick={() => setView("form")}
-                    className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300"
+                    className={`px-6 py-3 rounded-lg transition duration-300 ${view === 'form' ? 'bg-blue-700 text-white' : 'bg-blue-600 text-white hover:bg-blue-700'
+                        }`}
                 >
                     Add Record
                 </button>
                 <button
                     onClick={() => setView("records")}
-                    className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300"
+                    className={`px-6 py-3 rounded-lg transition duration-300 ${view === 'records' ? 'bg-green-700 text-white' : 'bg-green-600 text-white hover:bg-green-700'
+                        }`}
                 >
                     View Records
                 </button>
