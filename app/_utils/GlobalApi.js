@@ -32,6 +32,10 @@ const userAppointmentList = async () => await fetch(`${API_URL}/customer/appoint
 
 const userBookingList = async () => await fetch(`${API_URL}/customer/bookings`, { credentials: 'include' })
 
+const getDogBreeds = () => fetch(`${API_URL}/dog-breed`)
+
+const getSymptoms = () => fetch(`${API_URL}/symptom`)
+
 const addRecord = async (formData) => await fetch(`${API_URL}/record`, { method: 'POST', body: formData, credentials: 'include' })
 
 const getRecords = async (page) => await fetch(`${API_URL}/record`, { credentials: 'include' })
@@ -54,6 +58,8 @@ export default {
     bookService,
     userAppointmentList,
     userBookingList,
+    getDogBreeds,
+    getSymptoms,
     addRecord,
     getRecords
 }
