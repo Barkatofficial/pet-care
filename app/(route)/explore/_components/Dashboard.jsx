@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 import RecordList from './RecordList';
 import AddRecordForm from './AddRecordForm';
 import { useRouter, useSearchParams } from 'next/navigation';
+import dynamic from 'next/dynamic';
 
-export default function Dashboard() {
+function Dashboard() {
     const router = useRouter();
-    const searchParams = useSearchParams();
-    const initialView = searchParams.get('view') || 'form';
+    const initialView = useSearchParams().get('view') || 'form';
 
     const [view, setView] = useState(initialView);
 
@@ -44,3 +44,5 @@ export default function Dashboard() {
         </div>
     );
 };
+
+export default dynamic(() => Promise.resolve(Dashboard), { loading: () => <p>Loading Dashboard...</p> });
