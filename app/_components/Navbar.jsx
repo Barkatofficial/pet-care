@@ -13,8 +13,12 @@ export default function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     return (
-        <header className="relative z-50 pt-4"> {/* Added padding-top: 4 */}
-            <div className="container mx-auto flex justify-center">
+        <header className="relative z-50">
+            {/* Decorative Background */}
+            <div className="absolute inset-0 h-32 bg-green-100 rounded-b-3xl"></div>
+
+            {/* Navbar Container */}
+            <div className="relative container mx-auto flex justify-center pt-6">
                 <div className="flex items-center justify-between w-full max-w-5xl bg-white shadow-lg rounded-full py-3 px-8 md:px-12">
                     {/* Branding */}
                     <div className="text-green-900 text-2xl font-bold">pawcare</div>
@@ -72,7 +76,7 @@ export default function Navbar() {
 
             {/* Mobile Navigation */}
             {isMenuOpen && (
-                <div className="absolute top-16 left-0 w-full bg-white shadow-lg py-4">
+                <div className="absolute top-20 left-0 w-full bg-white shadow-lg py-4">
                     <div className="flex flex-col items-center space-y-4">
                         {NAV_MENU.map((item) => (
                             <Link

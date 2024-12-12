@@ -1,38 +1,55 @@
-// Summarization.jsx
 import React from 'react';
-import Image from 'next/image';
 
 const Summarization = () => {
+  const features = [
+    'Effortlessly track treatment and history.',
+    'Access medical records anytime, anywhere.',
+    'One platform for all your pet care needs.',
+    'Modern, simple, and pet-parent friendly.',
+  ];
+
   return (
-    <section className="bg-blue-900 text-white py-16 px-8 sm:px-12 md:px-24 lg:px-32 font-outfit">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-        {/* Image Section */}
-        <div className="relative w-full h-96">
-          <Image 
-            src="/concept1.png"
-            alt="Digital Treatment Management"
-            fill
-            className="object-contain"
-          />
+    <div className="max-w-6xl mx-auto p-6 bg-emerald-900 rounded-3xl overflow-hidden">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="text-white">
+          <h2 className="text-3xl font-semibold mb-6 leading-tight">
+            Keep Pet's Care History, <br /> Just a click away
+          </h2>
+
+          <ul className="space-y-3 mb-6">
+            {features.map((feature, index) => (
+              <li key={index} className="flex items-center gap-3">
+                <div className="w-5 h-5 rounded-full flex items-center justify-center bg-emerald-700">
+                  <span className="text-white">✓</span>
+                </div>
+                <span className="text-white">{feature}</span>
+              </li>
+            ))}
+          </ul>
+
+          <button
+            className="px-6 py-2 border border-white/20 text-white rounded-lg hover:bg-white/10 transition-colors duration-200"
+            aria-label="Explore more about pet care history"
+          >
+            Explore more
+          </button>
         </div>
 
-        {/* Text Content */}
-        <div>
-          <h2 className="text-4xl font-bold mb-4">Fully Integrated Digital Treatment Sheets</h2>
-          <p className="text-lg mb-6">
-            The industry's first practice management software built with fully integrated digital treatment sheets, 
-            so you can keep track of patient history and treat your patients from one place. We call this an EMR 
-            (Electronic Medical Record) platform because it's practice management software and so much more.
-          </p>
-          <ul className="list-disc pl-5 space-y-2">
-            <li>Keep track of patient history efficiently</li>
-            <li>Integrated digital treatment and medical records</li>
-            <li>Faster access to all patient data from one place</li>
-            <li>Professional, organized, and user-friendly platform</li>
-          </ul>
+        <div className="relative">
+          <video
+            src="/concept1.mp4"
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="w-full h-full object-cover rounded-3xl"
+            aria-label="Video showcasing pet care features"
+          >
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
