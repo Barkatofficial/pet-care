@@ -232,3 +232,10 @@ body {
     transform: rotate(360deg);
   }
 }
+.shadow-lg {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
