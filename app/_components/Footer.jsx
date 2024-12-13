@@ -1,75 +1,78 @@
-import Link from 'next/link';
 import React from 'react';
-import { Facebook, Instagram, Twitter } from 'lucide-react';
 
-export default function Footer() {
+const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-gray-300">
-      <div className="container mx-auto px-6 py-8">
-        {/* Section 1: Main Heading */}
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-white mb-4 sm:text-4xl">
-            Customise Your Product
-          </h2>
-          <p className="max-w-md mx-auto text-gray-400 mb-6">
-            Build something extraordinary. Let's work together to create the perfect experience, tailored to your needs.
-          </p>
-          <Link
-            href="#"
-            className="inline-block bg-indigo-600 hover:bg-indigo-500 text-white py-3 px-8 rounded-full font-medium transition duration-300"
-          >
-            Get Started
-          </Link>
-        </div>
+    <footer className="flex justify-between items-center px-12 py-8 bg-emerald-950 text-white w-full">
+      {/* Logo and Copyright */}
+      <div className="flex flex-col">
+        <h2 className="text-lg font-bold" style={{ fontFamily: "'Briella Rose', cursive" }}>
+          pawcare
+        </h2>
+        <p className="text-sm" style={{ fontFamily: "'PP Neue Montreal', sans-serif" }}>
+          &copy; 2024, All rights reserved
+        </p>
+      </div>
 
-        {/* Section 2: Links and Social Media */}
-        <div className="mt-12 pt-6 flex flex-col lg:flex-row justify-between items-center border-t border-gray-700 lg:space-y-0">
-          <ul className="flex flex-wrap justify-center space-x-4">
-            <li>
-              <Link href="#" className="hover:text-indigo-500 transition duration-300">Terms & Conditions</Link>
-            </li>
-            <li>
-              <Link href="#" className="hover:text-indigo-500 transition duration-300">Privacy Policy</Link>
-            </li>
-            <li>
-              <Link href="#" className="hover:text-indigo-500 transition duration-300">Cookies</Link>
-            </li>
-          </ul>
+      {/* Navigation Links */}
+      <div className="flex space-x-8">
+        <a 
+          href="/terms" 
+          className="text-sm hover:underline"
+          style={{ fontFamily: "'PP Neue Montreal', sans-serif" }}
+        >
+          Terms & Conditions
+        </a>
+        <a 
+          href="/privacy" 
+          className="text-sm hover:underline"
+          style={{ fontFamily: "'PP Neue Montreal', sans-serif" }}
+        >
+          Privacy Policy
+        </a>
+        <a 
+          href="/cookies" 
+          className="text-sm hover:underline"
+          style={{ fontFamily: "'PP Neue Montreal', sans-serif" }}
+        >
+          Cookies
+        </a>
+      </div>
 
-          <div className="text-center text-gray-500 text-sm ml:0 md:-ml-52 pt-2 md:pt-0">
-            &copy; {new Date().getFullYear()} Your Company. All rights reserved.
-          </div>
-
-          {/* Social Media Icons */}
-          <div className="flex justify-center space-x-6 pt-4 md:pt-0">
-            <Link
-              href="#"
-              target="_blank"
-              rel="noreferrer"
-              className="text-gray-300 hover:text-white transition duration-300"
-            >
-              <Facebook size={20} />
-            </Link>
-            <Link
-              href="#"
-              target="_blank"
-              rel="noreferrer"
-              className="text-gray-300 hover:text-white transition duration-300"
-            >
-              <Instagram size={20} />
-            </Link>
-            <Link
-              href="#"
-              target="_blank"
-              rel="noreferrer"
-              className="text-gray-300 hover:text-white transition duration-300"
-            >
-              <Twitter size={20} />
-            </Link>
-          </div>
-        </div>
-
+      {/* Social Media Icons */}
+      <div className="flex items-center space-x-6">
+        <a 
+          href="https://facebook.com" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-white hover:text-gray-200"
+        >
+          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+          </svg>
+        </a>
+        <a 
+          href="https://instagram.com" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-white hover:text-gray-200"
+        >
+          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2a10 10 0 00-3.16 19.5c-.07-.63-.13-1.6.03-2.3.15-.63.98-4.01.98-4.01s-.25-.5-.25-1.23c0-1.15.67-2.01 1.5-2.01.71 0 1.05.53 1.05 1.17 0 .71-.45 1.77-.69 2.76-.2.82.42 1.49 1.24 1.49 1.49 0 2.49-1.57 2.49-3.43 0-1.79-1.29-3.13-3.13-3.13-2.29 0-3.72 1.71-3.72 3.62 0 .66.19 1.13.5 1.49.14.17.16.23.11.42-.04.14-.12.49-.16.63-.05.2-.21.27-.39.2-1.09-.45-1.6-1.66-1.6-3.02 0-2.25 1.9-4.94 5.66-4.94 3.03 0 5.02 2.19 5.02 4.54 0 3.11-1.73 5.43-4.28 5.43-.86 0-1.66-.46-1.94-1 0 0-.46 1.84-.56 2.19-.17.61-.5 1.22-.8 1.7C10.52 19.84 11.25 20 12 20a8 8 0 100-16 8 8 0 000 16z"/>
+          </svg>
+        </a>
+        <a 
+          href="https://twitter.com" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-white hover:text-gray-200"
+        >
+          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+          </svg>
+        </a>
       </div>
     </footer>
   );
-}
+};
+
+export default Footer;
