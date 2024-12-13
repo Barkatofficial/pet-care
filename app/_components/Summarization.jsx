@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
 const Summarization = () => {
   const features = [
-    'Effortlessly track treatment and history.',
-    'Access medical records anytime, anywhere.',
-    'One platform for all your pet care needs.',
-    'Modern, simple, and pet-parent friendly.',
+    "Effortlessly track treatment and history.",
+    "Access medical records anytime, anywhere.",
+    "One platform for all your pet care needs.",
+    "Modern, simple, and pet-parent friendly.",
   ];
 
   return (
-    <div className="max-w-6xl mx-auto p-6 bg-emerald-900 rounded-3xl overflow-hidden">
+    <div className="max-w-6xl mx-auto p-6 bg-emerald-900 rounded-3xl overflow-hidden mb-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="text-white">
           <h2 className="text-3xl font-semibold mb-6 leading-tight">

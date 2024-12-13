@@ -1,31 +1,36 @@
-"use client";
+"use client"
 import React, { useEffect, useRef } from "react";
 
-export default function Hero() {
+const Hero = () => {
   const trackRef = useRef(null);
-
+  
   useEffect(() => {
     const track = trackRef.current;
+    let animationFrameId;
     let scrollPosition = 0;
-    const imageWidth = 176; // Width of one image container including margin
-    const totalWidth = imageWidth * 18; // Width of one set of 18 images
-
-    const scrollStep = () => {
-      scrollPosition += 1; // Adjust speed by changing this value
-      if (scrollPosition >= totalWidth) {
-        scrollPosition = 0; // Reset position for seamless looping
+    const imageWidth = 176; // Adjusted for single image width + spacing
+    const totalWidth = imageWidth * 18;
+    
+    const scroll = () => {
+      scrollPosition = (scrollPosition + 0.5) % totalWidth;
+      if (track) {
+        track.style.transform = `translateX(-${scrollPosition}px)`;
       }
-      track.style.transform = `translateX(-${scrollPosition}px)`;
-      requestAnimationFrame(scrollStep);
+      animationFrameId = requestAnimationFrame(scroll);
     };
-
-    requestAnimationFrame(scrollStep);
+    
+    scroll();
+    
+    return () => {
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
+    };
   }, []);
 
   return (
     <div className="bg-white">
       <div className="container mx-auto flex flex-col items-center text-center py-16 px-6">
-        {/* Hero Section */}
         <div className="mt-20 text-center">
           <h1 className="text-5xl font-bold mb-6 leading-tight">
             <span className="text-gray-500">Your</span>{" "}
@@ -38,50 +43,54 @@ export default function Hero() {
             From grooming to vet care, we've got your tail covered. Sit. Stay.
             Relax—we'll handle the rest.
           </p>
-          <a
-            href="/get-started"
-            className="relative bg-green-400 text-black py-3 px-6 rounded-full font-medium inline-flex items-center justify-center group transition-all duration-300"
+          <button
+            className="relative bg-green-400 text-black py-3 px-6 rounded-full font-medium inline-flex items-center justify-center group hover:bg-green-500 transition-colors duration-300"
             style={{ boxShadow: "0 4px 0 #00a000" }}
           >
-            <span className="absolute inset-0 rounded-full"></span>
-            <span
-              className="opacity-0 translate-x-[-10px] group-hover:opacity-100 group-hover:translate-x-0 transition-transform duration-300 ease-in-out"
-              aria-hidden="true"
-            >
-              →
+            <span className="flex items-center">
+              <span className="transform group-hover:translate-x-1 transition-transform duration-200">
+                Get Started for free
+              </span>
+              <span className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                →
+              </span>
             </span>
-            <span className="ml-2">Get Started for free</span>
-          </a>
+          </button>
         </div>
 
-        {/* Continuous Scrolling Images */}
         <div className="relative mt-16 overflow-hidden w-full">
           <div
             ref={trackRef}
-            className="image-track flex items-center whitespace-nowrap"
+            className="flex items-center gap-8 transition-transform duration-100"
+            style={{ willChange: "transform" }}
           >
             {[...Array(18)].map((_, index) => (
               <div
                 key={`img-${index}`}
-                className="w-40 h-40 mx-4 flex-shrink-0 rounded-lg overflow-hidden shadow-md"
+                className="relative flex-shrink-0"
               >
-                <img
-                  src={`/images/dog-care-${(index % 18) + 1}.jpg`}
-                  alt={`Dog care ${index + 1}`}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ))}
-            {[...Array(18)].map((_, index) => (
-              <div
-                key={`img-duplicate-${index}`}
-                className="w-40 h-40 mx-4 flex-shrink-0 rounded-lg overflow-hidden shadow-md"
-              >
-                <img
-                  src={`/images/dog-care-${(index % 18) + 1}.jpg`}
-                  alt={`Dog care duplicate ${index + 1}`}
-                  className="w-full h-full object-cover"
-                />
+                {index % 2 === 1 ? (
+                  // Second indices (1, 3, 5, etc.) - show vertically stacked images
+                  <div className="flex flex-col gap-4">
+                    <img
+                      src={`/images/dog-care-${index + 1}.jpg`}
+                      alt={`Dog care ${index + 1}`}
+                      className="w-40 h-40 object-cover rounded-lg shadow-md"
+                    />
+                    <img
+                      src={`/images/dog-care-${((index + 1) % 18) + 1}.jpg`}
+                      alt={`Dog care ${((index + 1) % 18) + 1}`}
+                      className="w-40 h-40 object-cover rounded-lg shadow-md"
+                    />
+                  </div>
+                ) : (
+                  // Other indices - show single image
+                  <img
+                    src={`/images/dog-care-${index + 1}.jpg`}
+                    alt={`Dog care ${index + 1}`}
+                    className="w-40 h-40 object-cover rounded-lg shadow-md"
+                  />
+                )}
               </div>
             ))}
           </div>
@@ -89,4 +98,6 @@ export default function Hero() {
       </div>
     </div>
   );
-}
+};
+
+export default Hero;

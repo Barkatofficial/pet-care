@@ -1,17 +1,19 @@
+/* Import Tailwind base, components, and utilities */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Import external styles (if used) */
 @import 'slick-carousel/slick/slick.css';
 @import 'slick-carousel/slick/slick-theme.css';
 
-
+/* Program Card Styles */
 .program-card {
-  background-color: #f9f9f9;
-  /* Light grey */
+  background-color: #f9f9f9; /* Light grey */
   border-radius: 8px;
 }
 
+/* Slick Carousel Customizations */
 .slick-next,
 .slick-prev {
   font-size: 24px;
@@ -19,32 +21,32 @@
 }
 
 .slick-dots li button::before {
-  color: #4a90e2;
-  /* Custom dot color */
+  color: #4a90e2; /* Custom dot color */
 }
 
 .slick-dots li.slick-active button::before {
-  color: #007bff;
-  /* Active dot color */
+  color: #007bff; /* Active dot color */
 }
 
+/* Root Variables */
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
+/* General Body Styles */
 body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Keyframes for Animations */
 @keyframes fadeIn {
   0% {
     opacity: 0;
     transform: translateY(20px);
   }
-
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -56,13 +58,47 @@ body {
     opacity: 0;
     transform: translateY(30px);
   }
-
   100% {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+@keyframes zoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+/* Animation Utilities */
 .animate-fadeIn {
   animation: fadeIn 1s ease-in-out forwards;
 }
@@ -75,71 +111,18 @@ body {
   animation: pulse 1.5s infinite;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
-
-  100% {
-    transform: translateY(0px);
-  }
-}
-
 .animate-zoom {
   animation: zoom 10s infinite alternate;
 }
 
-@keyframes zoom {
-  0% {
-    transform: scale(1);
-  }
-
-  100% {
-    transform: scale(1.1);
-  }
-}
-
-
+/* Tailwind Utility Extensions */
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
 }
 
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
-
-
+/* Base Styles */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -195,19 +178,13 @@ body {
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
 
   body {
     @apply bg-background text-foreground;
   }
 }
 
-
+/* Spinner Styles */
 .spinnerContainer {
   display: flex;
   justify-content: center;
@@ -215,7 +192,6 @@ body {
   width: 100%;
   height: 100vh;
 }
-
 
 .loadingSpinner {
   border-top: 2px solid #363636;
@@ -227,15 +203,75 @@ body {
   0% {
     transform: rotate(0deg);
   }
-
   100% {
     transform: rotate(360deg);
   }
 }
+
+/* Utility Styles */
 .shadow-lg {
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
 .rounded-full {
   border-radius: 9999px;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 25s linear infinite;
+}
+
+.flex:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+.testimonial-section {
+  position: relative;
+  background-color: white;
+}
+
+.testimonial-section::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle, rgba(128, 0, 128, 0.1) 20%, rgba(128, 0, 128, 0.2) 40%, rgba(128, 0, 128, 0.3) 60%);
+  border-radius: 50%;
+  z-index: 0;
+  animation: bubbles 10s infinite ease-in-out;
+}
+
+.testimonial-section::after {
+  content: '';
+  position: absolute;
+  top: 10px;
+  right: -20px;
+  width: 100px;
+  height: 100px;
+  background: rgba(128, 0, 128, 0.2);
+  border-radius: 50%;
+  z-index: -1;
+}
+
+@keyframes bubbles {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+  50% {
+    transform: translateX(10px) translateY(-10px);
+  }
+  100% {
+    transform: translateX(0) translateY(0);
+  }
 }
