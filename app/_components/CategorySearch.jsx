@@ -1,35 +1,50 @@
 import Image from 'next/image';
-import StatsSection from './StatsSection';
 import Link from 'next/link';
 
 export default function CategorySearch({ categoryList }) {
-
   return (
-    <div className="mb-10 mt-10 items-center flex flex-col gap-4">
-      <h2 className="font-bold text-4xl tracking-wide text-center">
-        Our <span className="text-primary">Services</span>
+    <div className="mb-10 mt-10 flex flex-col items-center gap-8">
+      {/* Heading Section */}
+      <h2
+        className="text-center"
+        style={{
+          fontFamily: 'Apple Garamond, serif',
+          fontSize: '80px',
+          fontWeight: 'bold',
+          lineHeight: '1.1',
+          color: '#000000',
+        }}
+      >
+        Tailored Care, <br /> One Paw at a Time
       </h2>
 
-      {/* Center the grid and ensure proper alignment */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 justify-center items-center">
-        {categoryList.map((item, index) => (
-          <Link href={`/search/${item.id}/${item.name}`}
+      {/* Cards Section - Vertical Stacking */}
+      <div className="flex flex-col gap-6 w-full max-w-screen-md">
+        {categoryList.slice(0, 4).map((item, index) => (
+          <div
             key={index}
-            className="flex flex-col text-center items-center p-6 md:p-5 bg-blue-50 m-2 rounded-lg gap-2 hover:scale-110 transition-all ease-in-out"
+            className="flex flex-row items-center bg-yellow-50 p-6 rounded-lg shadow-md gap-6"
           >
-            <Image
-              src={item.icon}
-              alt="icon"
-              width={40}
-              height={40}
-            />
-            <label className="text-black-600 text-sm">
-              {item.name}
-            </label>
-          </Link>
+            {/* Image */}
+            <div className="w-1/3">
+              <Image
+                src={item.icon}
+                alt={item.name}
+                width={100}
+                height={100}
+                className="rounded-lg"
+              />
+            </div>
+            {/* Text Content */}
+            <div className="w-2/3">
+              <h3 className="text-lg font-bold text-gray-800 mb-2">
+                {item.title}
+              </h3>
+              <p className="text-gray-600 text-sm">{item.description}</p>
+            </div>
+          </div>
         ))}
       </div>
-      <StatsSection />
     </div>
   );
 }

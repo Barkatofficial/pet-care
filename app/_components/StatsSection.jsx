@@ -84,7 +84,7 @@ const StatsSection = () => {
       </section>
 
       {/* Summarization Section */}
-      <Summarization />
+      {/* <Summarization /> */}
     </>
   );
 };

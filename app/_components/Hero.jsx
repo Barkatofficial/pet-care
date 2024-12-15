@@ -3,24 +3,24 @@ import React, { useEffect, useRef } from "react";
 
 const Hero = () => {
   const trackRef = useRef(null);
-  
+
   useEffect(() => {
     const track = trackRef.current;
     let animationFrameId;
     let scrollPosition = 0;
-    const imageWidth = 176; // Adjusted for single image width + spacing
+    const imageWidth = 160; // Adjusted for consistent image size + spacing
     const totalWidth = imageWidth * 18;
-    
+
     const scroll = () => {
-      scrollPosition = (scrollPosition + 0.5) % totalWidth;
+      scrollPosition = (scrollPosition + 1) % totalWidth;
       if (track) {
         track.style.transform = `translateX(-${scrollPosition}px)`;
       }
       animationFrameId = requestAnimationFrame(scroll);
     };
-    
+
     scroll();
-    
+
     return () => {
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
@@ -29,7 +29,9 @@ const Hero = () => {
   }, []);
 
   return (
-    <div className="bg-white">
+    <div className="bg-white relative">
+      <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-white via-white/50 to-transparent z-10 pointer-events-none"></div>
+      <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-white via-white/50 to-transparent z-10 pointer-events-none"></div>
       <div className="container mx-auto flex flex-col items-center text-center py-16 px-6">
         <div className="mt-20 text-center">
           <h1 className="text-5xl font-bold mb-6 leading-tight">
@@ -61,7 +63,7 @@ const Hero = () => {
         <div className="relative mt-16 overflow-hidden w-full">
           <div
             ref={trackRef}
-            className="flex items-center gap-8 transition-transform duration-100"
+            className="flex items-center gap-6 transition-transform duration-100"
             style={{ willChange: "transform" }}
           >
             {[...Array(18)].map((_, index) => (
@@ -70,25 +72,23 @@ const Hero = () => {
                 className="relative flex-shrink-0"
               >
                 {index % 2 === 1 ? (
-                  // Second indices (1, 3, 5, etc.) - show vertically stacked images
                   <div className="flex flex-col gap-4">
                     <img
                       src={`/images/dog-care-${index + 1}.jpg`}
                       alt={`Dog care ${index + 1}`}
-                      className="w-40 h-40 object-cover rounded-lg shadow-md"
+                      className="w-36 h-36 object-cover rounded-lg shadow-md"
                     />
                     <img
                       src={`/images/dog-care-${((index + 1) % 18) + 1}.jpg`}
                       alt={`Dog care ${((index + 1) % 18) + 1}`}
-                      className="w-40 h-40 object-cover rounded-lg shadow-md"
+                      className="w-36 h-36 object-cover rounded-lg shadow-md"
                     />
                   </div>
                 ) : (
-                  // Other indices - show single image
                   <img
                     src={`/images/dog-care-${index + 1}.jpg`}
                     alt={`Dog care ${index + 1}`}
-                    className="w-40 h-40 object-cover rounded-lg shadow-md"
+                    className="w-36 h-36 object-cover rounded-lg shadow-md"
                   />
                 )}
               </div>
