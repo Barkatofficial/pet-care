@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 
 const NAV_MENU = [
-    { name: "What we do", path: "/" },
+    { name: "What we do", path: "/about" },
     { name: "Services", path: "/services" },
     { name: "Blog", path: "/blog" },
     { name: "Contact Us", path: "/contact" },

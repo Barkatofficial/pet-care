@@ -20,7 +20,7 @@ export default function CategorySearch({ categoryList }) {
 
       {/* Cards Section - Vertical Stacking */}
       <div className="flex flex-col gap-6 w-full max-w-screen-md">
-        {categoryList.slice(0, 4).map((item, index) => (
+        {categoryList.slice(0, 5).map((item, index) => (
           <div
             key={index}
             className="flex flex-row items-center bg-yellow-50 p-6 rounded-lg shadow-md gap-6"
