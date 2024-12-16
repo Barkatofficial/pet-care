@@ -15,7 +15,7 @@ export default function Navbar() {
     return (
         <header className="relative z-50">
             {/* Decorative Background */}
-            <div className="absolute inset-0 h-32 bg-green-100 rounded-b-3xl"></div>
+            {/* <div className="absolute inset-0 h-32 bg-green-100 rounded-b-3xl"></div> */}
 
             {/* Navbar Container */}
             <div className="relative container mx-auto flex justify-center pt-6">
@@ -38,8 +38,8 @@ export default function Navbar() {
 
                     {/* Call-to-Action Button */}
                     <Link
-                        href="/get-started"
-                        className="hidden md:inline-block bg-green-300 text-green-900 py-2 px-6 rounded-full font-semibold hover:bg-green-400 transition duration-200"
+                        href="/auth/login"
+                        className="hidden md:inline-block bg-green-300 text-green-900 py-2 px-6 rounded-full font-semibold hover:bg-green-600 transition duration-200"
                     >
                         Get started
                     </Link>
