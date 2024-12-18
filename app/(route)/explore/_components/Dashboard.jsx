@@ -19,27 +19,33 @@ function Dashboard() {
     }, [view, router]);
 
     return (
-        <div className="max-w-6xl mx-auto p-8 bg-gray-50 rounded-lg shadow-md mt-10 min-h-screen">
-            <h1 className="text-4xl font-bold text-center mb-6 text-gray-800">Pet Health Dashboard</h1>
-            <div className="flex justify-center space-x-4 mb-4">
-                <button
-                    onClick={() => setView("form")}
-                    className={`px-6 py-3 rounded-lg transition duration-300 ${view === 'form' ? 'bg-blue-700 text-white' : 'bg-blue-600 text-white hover:bg-blue-700'
+        <div className="min-h-screen bg-gray-50 py-12">
+            <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+                <div className="bg-gradient-to-r from-blue-600 to-green-500 py-6 px-8">
+                    <h1 className="text-4xl font-semibold text-center text-white">Pet Health Dashboard</h1>
+                </div>
+                <div className="flex justify-center space-x-4 py-6 border-b border-gray-200">
+                    <button
+                        onClick={() => setView("form")}
+                        className={`px-6 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
+                            view === 'form' ? 'bg-blue-600 text-white shadow-md' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
                         }`}
-                >
-                    Add Record
-                </button>
-                <button
-                    onClick={() => setView("records")}
-                    className={`px-6 py-3 rounded-lg transition duration-300 ${view === 'records' ? 'bg-green-700 text-white' : 'bg-green-600 text-white hover:bg-green-700'
+                    >
+                        Add Record
+                    </button>
+                    <button
+                        onClick={() => setView("records")}
+                        className={`px-6 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
+                            view === 'records' ? 'bg-green-600 text-white shadow-md' : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
                         }`}
-                >
-                    View Records
-                </button>
-            </div>
-            <div className="w-full justify-center flex p-6">
-                {view === 'form' && <AddRecordForm />}
-                {view === 'records' && <RecordList />}
+                    >
+                        View Records
+                    </button>
+                </div>
+                <div className="p-8">
+                    {view === 'form' && <AddRecordForm />}
+                    {view === 'records' && <RecordList />}
+                </div>
             </div>
         </div>
     );

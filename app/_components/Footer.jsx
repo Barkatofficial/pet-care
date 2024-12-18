@@ -2,9 +2,9 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="flex justify-between items-center px-12 py-8 bg-emerald-950 text-white w-full">
+    <footer className="flex flex-col md:flex-row justify-between items-center px-4 py-8 bg-emerald-950 text-white w-full">
       {/* Logo and Copyright */}
-      <div className="flex flex-col">
+      <div className="flex flex-col items-center md:items-start">
         <h2 className="text-lg font-bold" style={{ fontFamily: "'Briella Rose', cursive" }}>
           pawcare
         </h2>
@@ -14,7 +14,7 @@ const Footer = () => {
       </div>
 
       {/* Navigation Links */}
-      <div className="flex space-x-8">
+      <div className="flex flex-col md:flex-row space-y-4 md:space-x-8 md:space-y-0">
         <a 
           href="/terms" 
           className="text-sm hover:underline"
@@ -39,7 +39,7 @@ const Footer = () => {
       </div>
 
       {/* Social Media Icons */}
-      <div className="flex items-center space-x-6">
+      <div className="flex items-center space-x-6 mt-4 md:mt-0">
         <a 
           href="https://facebook.com" 
           target="_blank" 

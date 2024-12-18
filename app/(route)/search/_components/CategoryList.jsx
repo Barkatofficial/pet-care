@@ -31,8 +31,8 @@ export default function CategoryList({ categoryList }) {
       </button>
 
       {/* Sidebar */}
-      <div className={`fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transition-transform duration-300 ease-in-out 
-        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:-translate-x-0 md:static md:flex flex-col pl-2 pr-5`}>
+      <div className={`fixed inset-y-0 left-0 z-50 w-64 h-screen bg-white shadow-xl transition-transform duration-300 ease-in-out 
+        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:-translate-x-0 md:static md:flex flex-col pl-2`}>
 
         <Command>
           <CommandList className='overflow-visible'>

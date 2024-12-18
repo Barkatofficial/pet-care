@@ -10,7 +10,7 @@ export default function Page() {
     <>
       <Hero />
       <CategoryListContainer />
-      <StatsSection />
+      {/* <StatsSection /> */}
       <Summarization />
       <Testimonials />
       <FAQ />

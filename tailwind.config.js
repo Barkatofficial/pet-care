@@ -12,7 +12,7 @@ module.exports = {
   
 	theme: {
 	  extend: {
-		// Define custom color palette with CSS variables
+		// Custom Colors
 		colors: {
 		  background: "hsl(var(--background))",
 		  foreground: "hsl(var(--foreground))",
@@ -25,7 +25,7 @@ module.exports = {
 			foreground: "hsl(var(--popover-foreground))",
 		  },
 		  primary: {
-			DEFAULT: "#0D7DFF", // Main primary color
+			DEFAULT: "#0D7DFF",
 			foreground: "hsl(var(--primary-foreground))",
 		  },
 		  secondary: {
@@ -56,14 +56,14 @@ module.exports = {
 		  },
 		},
   
-		// Define custom border radius values
+		// Custom Border Radius
 		borderRadius: {
-		  lg: "var(--radius)", // Large radius based on custom variable
-		  md: "calc(var(--radius) - 2px)", // Medium radius
-		  sm: "calc(var(--radius) - 4px)", // Small radius
+		  lg: "var(--radius)",
+		  md: "calc(var(--radius) - 2px)",
+		  sm: "calc(var(--radius) - 4px)",
 		},
   
-		// Add custom typography styles for better text appearance
+		// Custom Typography Styles
 		typography: {
 		  DEFAULT: {
 			css: {
@@ -92,7 +92,7 @@ module.exports = {
 		  },
 		},
   
-		// Define keyframes for animations
+		// Custom Keyframes for Animations
 		keyframes: {
 		  marquee: {
 			from: { transform: "translateX(0)" },
@@ -102,43 +102,41 @@ module.exports = {
 			from: { transform: "translateY(0)" },
 			to: { transform: "translateY(calc(-100% - var(--gap)))" },
 		  },
-		  // Custom gradient animations for the testimonials section
 		  gradientHover: {
 			"0%, 100%": { backgroundPosition: "0% 50%" },
 			"50%": { backgroundPosition: "100% 50%" },
 		  },
 		},
   
-		// Add custom animation utilities
+		// Custom Animations
 		animation: {
 		  marquee: "marquee var(--duration) infinite linear",
 		  "marquee-vertical": "marquee-vertical var(--duration) linear infinite",
 		  gradientHover: "gradientHover 3s ease infinite",
 		},
   
-		// Adding more spacing and padding options
+		// Custom Spacing
 		spacing: {
-		  18: "4.5rem", // Adds custom spacing if needed (like for testimonial gaps)
+		  18: "4.5rem",
 		  22: "5.5rem",
 		},
   
-		// Increase responsiveness with custom breakpoints
+		// Custom Screens for Responsiveness
 		screens: {
-		  xs: "480px", // Adding extra small breakpoint for better mobile responsiveness
-		  sm: "640px", // Small breakpoint
-		  md: "768px", // Medium breakpoint
-		  lg: "1024px", // Large breakpoint
-		  xl: "1280px", // Extra-large breakpoint
+		  xs: "480px",
+		  sm: "640px",
+		  md: "768px",
+		  lg: "1024px",
+		  xl: "1280px",
 		},
-  
 	  },
 	},
   
-	// Include necessary Tailwind plugins
+	// Include Necessary Tailwind Plugins
 	plugins: [
-	  require("tailwindcss-animate"), // For animation utilities
-	  require("@tailwindcss/typography"), // For rich text styling
-	  require("@tailwindcss/forms"), // For styling form elements
+	  require("tailwindcss-animate"),
+	  require("@tailwindcss/typography"),
+	  require("@tailwindcss/forms"),
 	],
   };
   
