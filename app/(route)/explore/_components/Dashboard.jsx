@@ -19,8 +19,8 @@ function Dashboard() {
     }, [view, router]);
 
     return (
-        <div className="min-h-screen bg-gray-50 py-12">
-            <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <div className="min-h-screen bg-gray-50">
+            <div className="w-full bg-white shadow-lg rounded-lg overflow-hidden">
                 <div className="bg-gradient-to-r from-blue-600 to-green-500 py-6 px-8">
                     <h1 className="text-4xl font-semibold text-center text-white">Pet Health Dashboard</h1>
                 </div>
