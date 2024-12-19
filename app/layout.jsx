@@ -14,7 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${outfit.className} min-h-screen`}>
-        {/* <Navbar /> */}
+        <Navbar />
         {children}
         <Toaster />
         <Footer />
