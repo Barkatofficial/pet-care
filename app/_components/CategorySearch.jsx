@@ -1,6 +1,6 @@
-import Image from 'next/image';
-import StatsSection from './StatsSection';
-import Link from 'next/link';
+import Image from "next/image";
+import StatsSection from "./StatsSection";
+import Link from "next/link";
 
 export default function CategorySearch({ categoryList }) {
   return (
@@ -11,23 +11,26 @@ export default function CategorySearch({ categoryList }) {
 
       {/* Center the grid and ensure proper alignment */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6 justify-center items-center">
-        {categoryList.map((item, index) => (
+        {categoryList ? (
+          categoryList.map((item, index) => (
+            <Link
+              href={`/search/${item.id}/${item.name}`} // Fixed the template literal
+              key={index}
+              className="flex flex-col text-center items-center p-6 md:p-5 bg-blue-50 m-2 rounded-lg gap-2 hover:scale-110 transition-all ease-in-out"
+            >
+              <Image src={item.icon} alt="icon" width={40} height={40} />
+              <label className="text-black-600 text-sm">{item.name}</label>
+            </Link>
+          ))
+        ) : (
           <Link
-            href={`/search/${item.id}/${item.name}`} // Fixed the template literal
-            key={index}
+            href={`/search/1c2c3/test`} // Fixed the template literal
             className="flex flex-col text-center items-center p-6 md:p-5 bg-blue-50 m-2 rounded-lg gap-2 hover:scale-110 transition-all ease-in-out"
           >
-            <Image
-              src={item.icon}
-              alt="icon"
-              width={40}
-              height={40}
-            />
-            <label className="text-black-600 text-sm">
-              {item.name}
-            </label>
+            <Image src={null} alt="icon" width={40} height={40} />
+            <label className="text-black-600 text-sm">item name</label>
           </Link>
-        ))}
+        )}
       </div>
       {/* <StatsSection /> */}
     </div>
